@@ -40,6 +40,13 @@ This audio interaction mechanism is inspired by Vincent van Gogh’s The Starry 
 
 The visual design uses particles, dots, and flowing curves to recreate the emotional brushstroke style of The Starry Night. Users can interact with the artwork by speaking, clapping, or singing, allowing their sound to directly influence the digital sky.
 
+### 3. Perlin Noise & Randomness
+**Owner: Yichen Yao**
+To fulfill the requirement of integrating Perlin noise and randomness without overlapping with direct user input (Mechanic 4), my mechanic acts as the global mathematical engine driving the kinetic energy of Van Gogh's The Starry Night. I will use random() to initialize the coordinates of digital 'brushstroke' particles. Their continuous movement is guided by a global 2D Perlin noise flow field (noise()), which perfectly simulates the painting's turbulent, spiraling atmosphere.
+
+Besides,instead of canvas interaction, the user engages with this mechanism via an on-screen UI Control Panel. The user can click a "Regenerate Cosmos" button to trigger a new noiseSeed() and randomSeed(). This instantly recalculates the entire mathematical wind field, morphing the canvas into a new procedural iteration. 
+
+This approach separates macro-environmental control from micro-level canvas interactions. It connects to our vision by giving the audience a "director's perspective." While they don't touch the stars directly, they are interacting with the underlying generative logic, orchestrating the invisible cosmic winds that shape the living masterpiece.
 
 ### 4. User input — Vortex disturbance
 **Owner: Danlin Liu**
