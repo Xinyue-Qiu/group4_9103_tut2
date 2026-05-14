@@ -41,7 +41,7 @@ This audio interaction mechanism is inspired by Vincent van Gogh’s The Starry 
 The visual design uses particles, dots, and flowing curves to recreate the emotional brushstroke style of The Starry Night. Users can interact with the artwork by speaking, clapping, or singing, allowing their sound to directly influence the digital sky.
 
 
-## 2. Time-Based Mechanic
+### 2. Time-Based Mechanic
 **Owner: Xinyue Qiu**
 
 The sky does not wait for you to look at it. That was the idea I kept coming back to when I started working on this part. The whole painting already feels alive in Van Gogh's original, all those swirling strokes frozen mid-motion. So I wanted to push that further, let the sky shift and breathe on its own, cycling through different moods without anyone touching it.
