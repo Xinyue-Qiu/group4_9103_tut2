@@ -41,6 +41,20 @@ This audio interaction mechanism is inspired by Vincent van Gogh’s The Starry 
 The visual design uses particles, dots, and flowing curves to recreate the emotional brushstroke style of The Starry Night. Users can interact with the artwork by speaking, clapping, or singing, allowing their sound to directly influence the digital sky.
 
 
+## 2. Time-Based Mechanic
+**Owner: Xinyue Qiu**
+
+The sky does not wait for you to look at it. That was the idea I kept coming back to when I started working on this part. The whole painting already feels alive in Van Gogh's original, all those swirling strokes frozen mid-motion. So I wanted to push that further, let the sky shift and breathe on its own, cycling through different moods without anyone touching it.
+
+The early phase is quiet. Particles drift slow and loose in deep blues and indigos, like the sky has not quite woken up yet. There is no rush here. Everything just hangs there, patient.
+
+Then things start to shift. Slowly, almost imperceptibly, the motion picks up. Stars brighten. The palette warms into teals and electric violets. I think of it as the sky gathering energy, building toward something.
+
+By the peak phase, it is almost chaotic. Swirls everywhere, particles moving fast and unpredictable, like the whole sky is restless. This felt right to me. Van Gogh did not paint a calm sky, after all. His sky is turbulent, emotional. That is the whole point.
+
+And then it settles. Colours fade back, motion slows, the cycle resets. I set timers across five dimensions so the whole system transitions together, palette and speed and brightness all shifting smoothly over a few minutes. The idea is not that anyone clocks the changes consciously, just that they feel the whole thing breathing, alive, changing in the background while everything else is happening.
+
+
 ### 4. User input — Vortex disturbance
 **Owner: Danlin Liu**
 
@@ -51,3 +65,10 @@ When you drag the mouse across the canvas, a new vortex centre appears at the cu
 If you press and hold the mouse without moving, something different happens. Energy builds up at that spot, and when you release, it bursts outward in a ring of light, the same way Van Gogh's stars seem to radiate brightness into the surrounding sky.
 
 This ties back to the project vision because the whole point is to make the painting something you can reach into rather than just look at. The viewer is not watching the night sky. They are pushing it around.
+
+
+
+
+## Part 3. Putting It Together
+
+The four mechanics coexist on the same canvas without interfering with each other, tied together by the particle system and the shared Starry Night palette. Audio shapes colour and speed, Perlin noise keeps the baseline movement organic, user interaction adds vortex disruptions, and time controls the overall mood arc of the whole piece. On their own they are fine, but together they create something that feels complete, a sky that responds to sound and touch and time, shifting whether you interact with it or not.
