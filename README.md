@@ -8,7 +8,7 @@ We are reinterpreting **Vincent van Gogh's *The Starry Night*** (1889).
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg)
 *Vincent van Gogh, The Starry Night, 1889. Oil on canvas, 73.7 x 92.1 cm. Museum of Modern Art, New York.*
 
-### Our vision
+### Our vision hahhhahahahah
 
 We are building an interactive version of *The Starry Night* where the sky moves. The painting already feels like it is in motion. The swirls, the stars, the rolling dark shapes, they look like something caught mid-storm. We want to make that motion real, using p5.js to turn Van Gogh's brushstrokes into a particle system the audience can actually reach into and change.
 
