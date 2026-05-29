@@ -29,6 +29,15 @@ Anadol turns large datasets into flowing, room-scale visual installations. We sa
 ![](https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800)
 *Refik Anadol's data sculptures, where machine-learning outputs become immersive visual environments.*
 
+## Part 2 Mechanics
+
+### 1.  Audio — Louder sound → faster swirling motion
+**Owner：Yujing Zhang**
+
+This audio interaction mechanism is inspired by Vincent van Gogh’s The Starry Night. The system uses a microphone to capture the user’s voice and transform sound volume into visual movement. When the user speaks louder, the swirling patterns in the sky rotate faster and the scene becomes more dynamic. When the environment becomes quiet, the movement gradually slows down and returns to a calm state.
+
+The visual design uses particles, dots, and flowing curves to recreate the emotional brushstroke style of The Starry Night. Users can interact with the artwork by speaking, clapping, or singing, allowing their sound to directly influence the digital sky.
+
 
 ## Part 2  Mechanics
 
