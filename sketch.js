@@ -10,11 +10,15 @@ function draw() {
 
     background(135, 206, 235);
 
+    drawOcean(stage);
+
   }
 
   else if (stage === "dream") {
 
     background(200, 150, 255);
+
+    drawOcean(stage);
 
   }
 
@@ -22,11 +26,15 @@ function draw() {
 
     background(30, 10, 80);
 
+    drawOcean(stage);
+
   }
 
   else {
 
     background(255, 220, 180);
+
+    drawOcean(stage);
 
   }
 
