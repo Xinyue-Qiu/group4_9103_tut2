@@ -1,102 +1,301 @@
+let stars = [];
+
+// ===== TIME MECHANIC =====
+let currentPhase = "reality";
+let phaseProgress = 0;
+let phaseTimes = {
+  reality:   { start: 0,     end: 15000 },
+  dream:     { start: 15000, end: 35000 },
+  galaxy:    { start: 35000, end: 55000 },
+  awakening: { start: 55000, end: 70000 },
+};
+let timeline = [
+  { time: 0,     event: "startReality" },
+  { time: 5000,  event: "sunSetMoonRise" },
+  { time: 15000, event: "startDream" },
+  { time: 18000, event: "boatRise" },
+  { time: 24000, event: "oceanDistort" },
+  { time: 28000, event: "starsMove" },
+  { time: 35000, event: "startGalaxy" },
+  { time: 38000, event: "starsSwirl" },
+  { time: 42000, event: "boatOrbit" },
+  { time: 48000, event: "moonHalo" },
+  { time: 55000, event: "startAwakening" },
+  { time: 60000, event: "boatDrop" },
+  { time: 65000, event: "oceanReturn" },
+  { time: 70000, event: "loopToReality" },
+];
+let eventIndex = 0;
+let timeOffset = 0;
+
 function setup() {
   createCanvas(960, 540);
+
+  // Initialize stars with positions and flicker offset
+  for (let i = 0; i < 100; i++) {
+    stars.push({
+      x: random(width),
+      y: random(height / 2),
+      size: random(1, 3),
+      offset: random(TWO_PI)
+    });
+  }
 }
 
 function draw() {
-  let stage = getCurrentStage();
+  // Get current time
+  let now = millis() - timeOffset;
 
-  if (stage === "reality") {
-    background(135, 206, 235);
-    drawOcean(stage);
-    drawSun();
-    drawBoat();
+  // Calculate progress within the current phase
+  let t = phaseTimes[currentPhase];
+  phaseProgress = map(now, t.start, t.end, 0, 1);
+  phaseProgress = constrain(phaseProgress, 0, 1);
+
+  // Check and trigger timeline events
+  while (eventIndex < timeline.length && now >= timeline[eventIndex].time) {
+    handleEvent(timeline[eventIndex].event);
+    eventIndex++;
   }
 
-  else if (stage === "dream") {
-    background(200, 150, 255);
-    drawOcean(stage);
-    drawMoon();
-    drawStars(20);
-    drawBoat();
-  }
+  drawSky(currentPhase);
+  drawOcean(currentPhase);
 
-  else if (stage === "galaxy") {
-    background(30, 10, 80);
-    drawOcean(stage);
-    drawStars(80);
-    drawBoat();
-  }
-
-  else {
-    background(255, 220, 180);
-    drawOcean(stage);
-    drawSun();
-    drawBoat();
-  }
-}
-
-function drawOcean(stage) {
-  if (stage === "reality") {
-    fill(50, 120, 220);
-  } else if (stage === "dream") {
-    fill(170, 140, 230);
-  } else if (stage === "galaxy") {
-    fill(20, 40, 100);
+  if (currentPhase === "reality") {
+    drawSun(currentPhase);
+    drawBoat(currentPhase);
+  } else if (currentPhase === "dream") {
+    drawMoon(currentPhase);
+    drawStars(currentPhase);
+    drawBoat(currentPhase);
+  } else if (currentPhase === "galaxy") {
+    drawStars(currentPhase);
+    drawBoat(currentPhase);
   } else {
-    fill(120, 190, 230);
-  }
-
-  noStroke();
-  rect(0, height / 2, width, height / 2);
-}
-
-function drawSun() {
-  fill(255, 220, 120);
-  noStroke();
-  circle(width * 0.78, height * 0.22, 80);
-}
-
-function drawMoon() {
-  fill(255, 240, 200);
-  noStroke();
-  circle(width * 0.78, height * 0.22, 70);
-
-  fill(200, 150, 255);
-  circle(width * 0.80, height * 0.20, 70);
-}
-
-function drawStars(amount) {
-  fill(255, 235, 160);
-  noStroke();
-
-  for (let i = 0; i < amount; i++) {
-    let x = random(width);
-    let y = random(height / 2);
-    circle(x, y, 3);
+    drawSun(currentPhase);
+    drawBoat(currentPhase);
   }
 }
 
-function drawBoat() {
-  fill(80, 45, 30);
+// Sky gradient per stage
+function drawSky(stage) {
+  let topColor, bottomColor;
+
+  if (stage === "reality") {
+    topColor = color(220, 225, 235);
+    bottomColor = color(245, 215, 225);
+  } else if (stage === "dream") {
+    topColor = color(135, 110, 185);
+    bottomColor = color(230, 180, 215);
+  } else if (stage === "galaxy") {
+    topColor = color(15, 15, 45);
+    bottomColor = color(80, 50, 130);
+  } else {
+    topColor = color(250, 220, 230);
+    bottomColor = color(255, 235, 195);
+  }
+
+  for (let y = 0; y < height / 2; y++) {
+    let inter = map(y, 0, height / 2, 0, 1);
+    let c = lerpColor(topColor, bottomColor, inter);
+    stroke(c);
+    line(0, y, width, y);
+  }
+}
+
+// Ocean gradient + wave animation
+function drawOcean(stage) {
+  let topColor, bottomColor, waveAmplitude, waveSpeed;
+
+  if (stage === "reality") {
+    topColor = color(110, 140, 185);
+    bottomColor = color(50, 75, 130);
+    waveAmplitude = 5;
+    waveSpeed = 0.03;
+  } else if (stage === "dream") {
+    topColor = color(155, 120, 190);
+    bottomColor = color(90, 70, 140);
+    waveAmplitude = 8;
+    waveSpeed = 0.04;
+  } else if (stage === "galaxy") {
+    topColor = color(35, 40, 100);
+    bottomColor = color(10, 10, 40);
+    waveAmplitude = 12;
+    waveSpeed = 0.05;
+  } else {
+    topColor = color(175, 140, 180);
+    bottomColor = color(100, 105, 160);
+    waveAmplitude = 6;
+    waveSpeed = 0.03;
+  }
+
   noStroke();
+  // Gradient ocean
+  for (let y = height / 2; y < height; y++) {
+    let inter = map(y, height / 2, height, 0, 1);
+    let c = lerpColor(topColor, bottomColor, inter);
+    stroke(c);
+    line(0, y, width, y);
+  }
 
-  triangle(
-    width / 2 - 60,
-    height * 0.68,
-    width / 2 + 60,
-    height * 0.68,
-    width / 2,
-    height * 0.76
-  );
+  // Animated waves overlay
+  stroke(255, 255, 255, 60);
+  strokeWeight(2);
+  noFill();
+  beginShape();
+  for (let x = 0; x <= width; x += 8) {
+    let waveY = height / 2 + sin(frameCount * waveSpeed + x * 0.015) * waveAmplitude;
+    vertex(x, waveY);
+  }
+  vertex(width, height);
+  vertex(0, height);
+  endShape(CLOSE);
+}
 
-  fill(255, 245, 220);
+// Sun with variable glow per stage
+function drawSun(stage) {
+  noStroke();
+  let glowSizes = {reality: [140,100,55], awakening:[120,80,55]};
+  let sizes = glowSizes[stage] || [140,100,55];
 
-  triangle(
-    width / 2,
-    height * 0.50,
-    width / 2,
-    height * 0.68,
-    width / 2 + 70,
-    height * 0.68
-  );
+  fill(255, 220, 180, 20);
+  circle(width * 0.78, height * 0.22, sizes[0]);
+  fill(255, 220, 180, 50);
+  circle(width * 0.78, height * 0.22, sizes[1]);
+  fill(255, 220, 180);
+  circle(width * 0.78, height * 0.22, sizes[2]);
+}
+
+// Moon with glow per stage
+function drawMoon(stage) {
+  noStroke();
+  let glowSizes = {dream:[180,130,90], galaxy:[200,160,100]};
+  let sizes = glowSizes[stage] || [180,130,90];
+
+  fill(255, 240, 220, 15);
+  circle(width*0.78, height*0.22, sizes[0]);
+  fill(255, 240, 220, 30);
+  circle(width*0.78, height*0.22, sizes[1]);
+  fill(255, 240, 220, 60);
+  circle(width*0.78, height*0.22, sizes[2]);
+  fill(255, 245, 225);
+  circle(width*0.78, height*0.22, 55);
+}
+
+// Stars with flicker per stage
+function drawStars(stage) {
+  let starCount = 20;
+  if(stage==="dream") starCount=30;
+  else if(stage==="galaxy") starCount=80;
+  else if(stage==="awakening") starCount=40;
+
+  for (let i = 0; i < starCount; i++) {
+    let s = stars[i];
+    let brightness = map(sin(frameCount*0.05 + s.offset), -1, 1, 180, 255);
+    fill(brightness, brightness, brightness);
+    noStroke();
+    circle(s.x, s.y, s.size);
+  }
+}
+
+// Floating boat with amplitude per stage
+function drawBoat(stage) {
+  let floatSpeed = 0.03;
+  let floatAmount = 5;
+  if(stage==="dream"){floatSpeed=0.04; floatAmount=7;}
+  else if(stage==="galaxy"){floatSpeed=0.05; floatAmount=9;}
+  else if(stage==="awakening"){floatSpeed=0.03; floatAmount=5;}
+
+  let floatY = sin(frameCount*floatSpeed)*floatAmount;
+
+  push();
+  translate(0, floatY);
+
+  let boatX = width/2;
+  let boatY = height*0.55;
+
+  // Shadow
+  noStroke();
+  fill(20,15,35,60);
+  ellipse(boatX, boatY+45, 130, 16);
+
+  // Curved boat body
+  fill(45,30,35);
+  beginShape();
+  vertex(boatX-65, boatY);
+  bezierVertex(boatX-45, boatY+42, boatX+45, boatY+42, boatX+65, boatY);
+  vertex(boatX+42, boatY+22);
+  bezierVertex(boatX+20, boatY+34, boatX-20, boatY+34, boatX-42, boatY+22);
+  endShape(CLOSE);
+
+  // Mast
+  stroke(235,220,200,220);
+  strokeWeight(2);
+  line(boatX, boatY, boatX, boatY-95);
+
+  // Front sail
+  noStroke();
+  fill(245,230,205,230);
+  beginShape();
+  vertex(boatX+3, boatY-90);
+  bezierVertex(boatX+45, boatY-70, boatX+55, boatY-25, boatX+8, boatY);
+  vertex(boatX+3, boatY);
+  endShape(CLOSE);
+
+  // Back sail
+  fill(220,205,195,180);
+  beginShape();
+  vertex(boatX-3, boatY-75);
+  bezierVertex(boatX-35, boatY-55, boatX-40, boatY-20, boatX-5, boatY);
+  vertex(boatX-3, boatY);
+  endShape(CLOSE);
+
+  pop();
+}
+
+// ===== EVENT HANDLER =====
+function handleEvent(eventName) {
+  if (eventName === "startReality") {
+    currentPhase = "reality";
+  }
+  if (eventName === "sunSetMoonRise") {
+    // Sun fades out, moon fades in
+  }
+  if (eventName === "startDream") {
+    currentPhase = "dream";
+  }
+  if (eventName === "boatRise") {
+    // Boat float amplitude increases
+  }
+  if (eventName === "oceanDistort") {
+    // Ocean waves become irregular
+  }
+  if (eventName === "starsMove") {
+    // Stars begin moving
+  }
+  if (eventName === "startGalaxy") {
+    currentPhase = "galaxy";
+  }
+  if (eventName === "starsSwirl") {
+    // Stars form spiral flow
+  }
+  if (eventName === "boatOrbit") {
+    // Boat enters orbital motion
+  }
+  if (eventName === "moonHalo") {
+    // Moon emits glow rings
+  }
+  if (eventName === "startAwakening") {
+    currentPhase = "awakening";
+  }
+  if (eventName === "boatDrop") {
+    // Boat begins falling
+  }
+  if (eventName === "oceanReturn") {
+    // Ocean reappears
+  }
+  if (eventName === "loopToReality") {
+    currentPhase = "reality";
+    eventIndex = 0;
+    timeOffset = millis();
+  }
 }
