@@ -300,7 +300,7 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   vertex(-82, 2);
   bezierVertex(-68, 17, 68, 17, 82, 2);
   endShape(CLOSE);
-  
+
   stroke(140, 90, 48);
   strokeWeight(1);
   for (let i = -3; i <= 3; i++) {
@@ -308,6 +308,14 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
     let px = i * 16;
     line(px, 2, px, 12 - abs(i) * 1.6);
   }
+  noStroke();
+  fill(145, 92, 46);
+  rect(-42, 7, 24, 4, 1);
+  rect(18, 7, 24, 4, 1);
+  pop(); 
+  drawCat(width / 2 + personX * 28, by + floatY);
+  drawBalanceBar();
+}
 
   function drawCat(px, py) {
   push();
@@ -435,5 +443,4 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   ellipse(8, -43, 6, 4);
 
   pop();
-}
 }
