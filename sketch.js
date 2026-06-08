@@ -294,6 +294,20 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   vertex(78, 0);
   endShape(CLOSE);
 
+  noStroke();
+  fill(175, 120, 65);
+  beginShape();
+  vertex(-82, 2);
+  bezierVertex(-68, 17, 68, 17, 82, 2);
+  endShape(CLOSE);
+  
+  stroke(140, 90, 48);
+  strokeWeight(1);
+  for (let i = -3; i <= 3; i++) {
+    if (i === 0) continue;
+    let px = i * 16;
+    line(px, 2, px, 12 - abs(i) * 1.6);
+  }
 
   function drawCat(px, py) {
   push();
