@@ -265,9 +265,8 @@ function drawBoat(stage) {
   else if (stage === "awakening") { floatSpeed = 0.03; floatAmount = 5; }
 
   let floatY = sin(frameCount * floatSpeed) * floatAmount;
-
-  // ── 平衡物理 ──
-  naturalRock = sin(frameCount * 0.025) * 0.07;
+}
+naturalRock = sin(frameCount * 0.025) * 0.07;
   let targetPersonX = map(mouseX, 0, width, -1, 1);
   personX = lerp(personX, targetPersonX, 0.08);
   let targetTilt = naturalRock + personX * 0.15;
