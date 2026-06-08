@@ -287,7 +287,7 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
 
   let lean = boatTilt * 2.8;
   rotate(lean);
-  
+
   noFill();
   stroke(200, 160, 120);
   strokeWeight(3);
@@ -296,3 +296,12 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   vertex(6, -12);
   bezierVertex(22, -10, 30 + tailCurl * 8, -28, 18, -45 + tailCurl * 5);
   endShape();
+
+  noStroke();
+  fill(210, 170, 130);
+  rect(-5, -14, 4.5, 14, 2);
+  rect(0.5, -14, 4.5, 14, 2);
+
+  fill(255, 200, 180);
+  ellipse(-2.5, 1, 6, 4);
+  ellipse(3, 1, 6, 4);
