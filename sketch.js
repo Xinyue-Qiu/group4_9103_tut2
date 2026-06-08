@@ -264,7 +264,7 @@ function drawBoat(stage) {
   else if (stage === "awakening") { floatSpeed = 0.03; floatAmount = 5; }
 
   let floatY = sin(frameCount * floatSpeed) * floatAmount;
-}
+
 
 naturalRock = sin(frameCount * 0.025) * 0.09;
   let targetPersonX = map(mouseX, 0, width, -1, 1);
@@ -280,6 +280,20 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   push();
   translate(bx, by + floatY);
   rotate(boatTilt);
+
+  noStroke();
+  fill(20, 15, 35, 60);
+  ellipse(0, 28, 200, 14);
+
+  fill(115, 70, 38);
+  stroke(85, 52, 26);
+  strokeWeight(1.5);
+  beginShape();
+  vertex(-95, 0);
+  bezierVertex(-80, 22, 80, 22, 95, 0);
+  vertex(78, 0);
+  endShape(CLOSE);
+
 
   function drawCat(px, py) {
   push();
@@ -407,4 +421,5 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   ellipse(8, -43, 6, 4);
 
   pop();
+}
 }
