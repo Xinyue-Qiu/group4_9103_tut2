@@ -368,3 +368,39 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   fill(255, 150, 150);
   noStroke();
   triangle(-1.5, -43, 1.5, -43, 0, -41.5);
+
+  stroke(180, 160, 140);
+  strokeWeight(0.8);
+ 
+  line(-3, -42, -14, -41);
+  line(-3, -42.5, -13, -44);
+  line(-3, -41.5, -13, -39);
+
+
+ 
+  noFill();
+  stroke(180, 200, 100);
+  strokeWeight(1);
+  line(0, -41.5, 0, -40);
+  if (abs(boatTilt) < 0.05) {
+  
+    arc(-1.5, -39.5, 3.5, 3, 0, PI);
+    arc(1.5, -39.5, 3.5, 3, 0, PI);
+  } else if (abs(boatTilt) < 0.15) {
+  
+    line(-2, -39, 2, -39);
+  } else {
+  
+    arc(0, -38.5, 5, 4, 0, PI);
+    fill(150, 200, 255, 140);
+    noStroke();
+    ellipse(12, -40, 3, 4.5);
+  
+
+
+  fill(255, 130, 130, 80);
+  noStroke();
+  ellipse(-8, -43, 6, 4);
+  ellipse(8, -43, 6, 4);
+
+}
