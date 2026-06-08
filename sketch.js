@@ -1,6 +1,6 @@
 let stars = [];
 // ===== USER INPUT  =====
-let CatX = 0;      
+let personX = 0;      
 let boatTilt = 0;         
 let naturalRock = 0;     
 let balanceScore = 100;   
@@ -351,6 +351,11 @@ function drawBalanceBar() {
   strokeWeight(1);
   line(width / 2, barY + 12, width / 2, barY + 14 + barH + 2);
 
+  noStroke();
+  fill(255, 255, 255, 200);
+  textSize(11);
+  textAlign(CENTER);
+  text(nf(score, 0, 0) + "%", width / 2, barY + 14 + barH + 22);
 }
 
 }
