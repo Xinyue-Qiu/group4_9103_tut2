@@ -333,3 +333,38 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   fill(255, 200, 180);
   ellipse(9 + armSpread, 3, 4, 3);
   pop();
+
+  fill(215, 175, 135);
+  noStroke();
+  ellipse(0, -46, 22, 20);
+
+  fill(215, 175, 135);
+  triangle(-8, -52, -12, -62, -2, -55);
+  triangle(8, -52, 12, -62, 2, -55);
+
+  fill(255, 180, 180);
+  triangle(-7, -53, -10, -60, -3, -56);
+  triangle(7, -53, 10, -60, 3, -56);
+
+
+  fill(245, 230, 215);
+  ellipse(0, -44, 14, 12);
+
+ 
+  fill(60, 40, 20);
+  ellipse(-4, -47, 5, 5.5);
+  ellipse(4, -47, 5, 5.5);
+
+  let pupilH = map(abs(boatTilt), 0, 0.3, 4.5, 1.5);
+  fill(20, 10, 10);
+  ellipse(-4, -47, 2.5, pupilH);
+  ellipse(4, -47, 2.5, pupilH);
+
+  fill(255);
+  ellipse(-3, -48.2, 1.8, 1.8);
+  ellipse(5, -48.2, 1.8, 1.8);
+
+ 
+  fill(255, 150, 150);
+  noStroke();
+  triangle(-1.5, -43, 1.5, -43, 0, -41.5);
