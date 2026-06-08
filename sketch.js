@@ -1,6 +1,6 @@
 let stars = [];
 // ===== USER INPUT  =====
-let personX = 0;      
+let CatX = 0;      
 let boatTilt = 0;         
 let naturalRock = 0;     
 let balanceScore = 100;   
@@ -280,3 +280,19 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   push();
   translate(bx, by + floatY);
   rotate(boatTilt);
+
+  function drawCat(px, py) {
+  push();
+  translate(px, py - 2);
+
+  let lean = boatTilt * 2.8;
+  rotate(lean);
+  
+  noFill();
+  stroke(200, 160, 120);
+  strokeWeight(3);
+  let tailCurl = boatTilt * 3;
+  beginShape();
+  vertex(6, -12);
+  bezierVertex(22, -10, 30 + tailCurl * 8, -28, 18, -45 + tailCurl * 5);
+  endShape();
