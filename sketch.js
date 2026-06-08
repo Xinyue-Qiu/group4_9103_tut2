@@ -1,4 +1,11 @@
 let stars = [];
+// ===== USER INPUT — 平衡控制变量 =====
+let personX = 0;          // 人在船上的站位 (-1 左, 1 右)
+let boatTilt = 0;         // 船当前倾斜角度
+let naturalRock = 0;      // 波浪自然摇摆
+let balanceScore = 100;   // 平衡度 0-100
+
+
 
 // ===== TIME MECHANIC =====
 let currentPhase = "reality";
@@ -197,60 +204,6 @@ function drawStars(stage) {
   }
 }
 
-// Floating boat with amplitude per stage
-function drawBoat(stage) {
-  let floatSpeed = 0.03;
-  let floatAmount = 5;
-  if(stage==="dream"){floatSpeed=0.04; floatAmount=7;}
-  else if(stage==="galaxy"){floatSpeed=0.05; floatAmount=9;}
-  else if(stage==="awakening"){floatSpeed=0.03; floatAmount=5;}
-
-  let floatY = sin(frameCount*floatSpeed)*floatAmount;
-
-  push();
-  translate(0, floatY);
-
-  let boatX = width/2;
-  let boatY = height*0.55;
-
-  // Shadow
-  noStroke();
-  fill(20,15,35,60);
-  ellipse(boatX, boatY+45, 130, 16);
-
-  // Curved boat body
-  fill(45,30,35);
-  beginShape();
-  vertex(boatX-65, boatY);
-  bezierVertex(boatX-45, boatY+42, boatX+45, boatY+42, boatX+65, boatY);
-  vertex(boatX+42, boatY+22);
-  bezierVertex(boatX+20, boatY+34, boatX-20, boatY+34, boatX-42, boatY+22);
-  endShape(CLOSE);
-
-  // Mast
-  stroke(235,220,200,220);
-  strokeWeight(2);
-  line(boatX, boatY, boatX, boatY-95);
-
-  // Front sail
-  noStroke();
-  fill(245,230,205,230);
-  beginShape();
-  vertex(boatX+3, boatY-90);
-  bezierVertex(boatX+45, boatY-70, boatX+55, boatY-25, boatX+8, boatY);
-  vertex(boatX+3, boatY);
-  endShape(CLOSE);
-
-  // Back sail
-  fill(220,205,195,180);
-  beginShape();
-  vertex(boatX-3, boatY-75);
-  bezierVertex(boatX-35, boatY-55, boatX-40, boatY-20, boatX-5, boatY);
-  vertex(boatX-3, boatY);
-  endShape(CLOSE);
-
-  pop();
-}
 
 // ===== EVENT HANDLER =====
 function handleEvent(eventName) {
@@ -298,4 +251,219 @@ function handleEvent(eventName) {
     eventIndex = 0;
     timeOffset = millis();
   }
+}
+// ============================================================
+// USER INPUT MECHANICS — 鼠标平衡控制系统
+// Author: Danlin Liu
+// ============================================================
+
+function drawBoat(stage) {
+  let floatSpeed = 0.03;
+  let floatAmount = 5;
+  if (stage === "dream") { floatSpeed = 0.04; floatAmount = 7; }
+  else if (stage === "galaxy") { floatSpeed = 0.05; floatAmount = 9; }
+  else if (stage === "awakening") { floatSpeed = 0.03; floatAmount = 5; }
+
+  let floatY = sin(frameCount * floatSpeed) * floatAmount;
+
+  // ── 平衡物理 ──
+  naturalRock = sin(frameCount * 0.025) * 0.07;
+  let targetPersonX = map(mouseX, 0, width, -1, 1);
+  personX = lerp(personX, targetPersonX, 0.08);
+  let targetTilt = naturalRock + personX * 0.15;
+  boatTilt = lerp(boatTilt, targetTilt, 0.06);
+  balanceScore = lerp(balanceScore,
+    constrain((1 - abs(boatTilt) / 0.25) * 100, 0, 100), 0.08);
+
+  let bx = width / 2;
+  let by = height * 0.55;
+
+  push();
+  translate(bx, by + floatY);
+  rotate(boatTilt);
+
+  // 影子
+  noStroke();
+  fill(20, 15, 35, 60);
+  ellipse(0, 28, 200, 14);
+
+  // 木船船体
+  fill(115, 70, 38);
+  stroke(85, 52, 26);
+  strokeWeight(1.5);
+  beginShape();
+  vertex(-95, 0);
+  bezierVertex(-80, 22, 80, 22, 95, 0);
+  vertex(78, 0);
+  endShape(CLOSE);
+
+  // 船内木板
+  noStroke();
+  fill(175, 120, 65);
+  beginShape();
+  vertex(-82, 2);
+  bezierVertex(-68, 17, 68, 17, 82, 2);
+  endShape(CLOSE);
+
+  // 木板纹理线
+  stroke(140, 90, 48);
+  strokeWeight(1);
+  for (let i = -3; i <= 3; i++) {
+    if (i === 0) continue;
+    let px = i * 16;
+    line(px, 2, px, 12 - abs(i) * 1.6);
+  }
+
+  // 横坐板
+  noStroke();
+  fill(145, 92, 46);
+  rect(-42, 7, 24, 4, 1);
+  rect(18, 7, 24, 4, 1);
+
+  // 船沿高光
+  stroke(155, 100, 52);
+  strokeWeight(2);
+  noFill();
+  beginShape();
+  vertex(-82, 2);
+  bezierVertex(-68, 17, 68, 17, 82, 2);
+  endShape();
+
+  pop(); // 船旋转组结束
+
+  // ── 画人（关键！这两行不能丢）──
+  drawPerson(width / 2 + personX * 28, by + floatY);
+
+  // ── 平衡进度条 ──
+  drawBalanceBar();
+}
+function drawPerson(px, py) {
+  push();
+  translate(px, py - 2);
+  let lean = boatTilt * 2.8;
+  rotate(lean);
+
+  // 腿
+  noStroke();
+  fill(60, 45, 65);
+  rect(-4.5, -14, 4, 13, 2);
+  rect(0.5, -14, 4, 13, 2);
+
+  // 鞋子
+  fill(80, 55, 60);
+  rect(-5.5, -2, 5.5, 4, 1.5);
+  rect(0.5, -2, 5.5, 4, 1.5);
+
+  // 身体（粉色上衣）
+  fill(255, 150, 160);
+  rect(-6, -38, 12, 18, 4);
+
+  // 腰带
+  fill(90, 60, 55);
+  rect(-6, -22, 12, 3, 1);
+
+  // 手臂
+  stroke(255, 150, 160);
+  strokeWeight(3);
+  noFill();
+  let armSpread = abs(boatTilt) * 18;
+  push();
+  translate(-6, -34);
+  rotate(-0.5 - boatTilt * 1.2);
+  line(0, 0, -(10 + armSpread), 4);
+  noStroke();
+  fill(255, 210, 180);
+  ellipse(-(10 + armSpread), 4, 5, 5);
+  pop();
+  push();
+  translate(6, -34);
+  rotate(0.5 + boatTilt * 1.2);
+  line(0, 0, 10 + armSpread, 4);
+  noStroke();
+  fill(255, 210, 180);
+  ellipse(10 + armSpread, 4, 5, 5);
+  pop();
+
+  // 头
+  noStroke();
+  fill(255, 215, 180);
+  ellipse(0, -46, 18, 18);
+
+  // 刘海
+  fill(50, 25, 15);
+  arc(0, -50, 18, 13, PI, TWO_PI);
+  ellipse(-7, -44, 6, 10);
+  ellipse(7, -44, 6, 10);
+
+  // 眼睛
+  fill(40, 25, 18);
+  ellipse(-3.5, -46, 4, 4.5);
+  ellipse(3.5, -46, 4, 4.5);
+  fill(255);
+  ellipse(-2.3, -47.2, 1.8, 1.8);
+  ellipse(4.7, -47.2, 1.8, 1.8);
+
+  // 腮红
+  fill(255, 130, 130, 90);
+  noStroke();
+  ellipse(-7, -42, 6, 4);
+  ellipse(7, -42, 6, 4);
+
+  // 嘴巴
+  noFill();
+  stroke(40, 25, 18);
+  strokeWeight(1.2);
+  if (abs(boatTilt) < 0.05) {
+    arc(0, -41, 6, 5, 0, PI);
+  } else if (abs(boatTilt) < 0.15) {
+    line(-2, -40, 2, -40);
+  } else {
+    line(-2, -41, 2, -41);
+    fill(150, 200, 255, 140);
+    noStroke();
+    ellipse(8, -38, 3, 4.5);
+  }
+
+  pop();
+}
+
+function drawBalanceBar() {
+  let barX = width / 2 - 120;
+  let barY = 20;
+  let barW = 240;
+  let barH = 16;
+
+  noStroke();
+  fill(0, 0, 0, 50);
+  rect(barX - 12, barY - 6, barW + 24, barH + 32, 10);
+
+  fill(255, 255, 255, 180);
+  noStroke();
+  textSize(11);
+  textAlign(CENTER);
+  text("Balance", width / 2, barY + 8);
+
+  noStroke();
+  fill(255, 255, 255, 20);
+  rect(barX, barY + 14, barW, barH, barH / 2);
+
+  let score = balanceScore;
+  let barColor;
+  if (score > 70) barColor = color(100, 220, 140);
+  else if (score > 40) barColor = color(255, 195, 60);
+  else barColor = color(255, 85, 85);
+
+  fill(barColor);
+  let fillW = barW * score / 100;
+  rect(barX, barY + 14, fillW, barH, barH / 2);
+
+  stroke(255, 255, 255, 100);
+  strokeWeight(1);
+  line(width / 2, barY + 12, width / 2, barY + 14 + barH + 2);
+
+  noStroke();
+  fill(255, 255, 255, 200);
+  textSize(11);
+  textAlign(CENTER);
+  text(nf(score, 0, 0) + "%", width / 2, barY + 14 + barH + 22);
 }
