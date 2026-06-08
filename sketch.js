@@ -379,7 +379,7 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
 
  
   noFill();
-  stroke(180, 200, 100);
+  stroke(180, 120, 100);
   strokeWeight(1);
   line(0, -41.5, 0, -40);
   if (abs(boatTilt) < 0.05) {
@@ -395,7 +395,7 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
     fill(150, 200, 255, 140);
     noStroke();
     ellipse(12, -40, 3, 4.5);
-  
+  }
 
 
   fill(255, 130, 130, 80);
@@ -403,4 +403,5 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   ellipse(-8, -43, 6, 4);
   ellipse(8, -43, 6, 4);
 
+  pop();
 }
