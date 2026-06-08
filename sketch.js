@@ -1,9 +1,9 @@
 let stars = [];
-// ===== USER INPUT — 平衡控制变量 =====
-let personX = 0;          // 人在船上的站位 (-1 左, 1 右)
-let boatTilt = 0;         // 船当前倾斜角度
-let naturalRock = 0;      // 波浪自然摇摆
-let balanceScore = 100;   // 平衡度 0-100
+// ===== USER INPUT  =====
+let personX = 0;      
+let boatTilt = 0;         
+let naturalRock = 0;     
+let balanceScore = 100;   
 
 
 
@@ -253,7 +253,7 @@ function handleEvent(eventName) {
   }
 }
 // ============================================================
-// USER INPUT MECHANICS — 鼠标平衡控制系统
+// USER INPUT MECHANICS
 // Author: Danlin Liu
 // ============================================================
 
