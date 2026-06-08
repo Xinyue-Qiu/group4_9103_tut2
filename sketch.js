@@ -305,3 +305,31 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   fill(255, 200, 180);
   ellipse(-2.5, 1, 6, 4);
   ellipse(3, 1, 6, 4);
+
+   fill(215, 175, 135);
+  ellipse(0, -26, 20, 22);
+
+ 
+  fill(245, 225, 205);
+  ellipse(0, -24, 11, 13);
+
+  let armSpread = abs(boatTilt) * 20;
+  fill(210, 170, 130);
+  noStroke();
+  push();
+  translate(-8, -32);
+  rotate(-0.4 - boatTilt * 1.3);
+  ellipse(-(8 + armSpread), 3, 7, 6);
+ 
+  fill(255, 200, 180);
+  ellipse(-(9 + armSpread), 3, 4, 3);
+  pop();
+
+  push();
+  translate(8, -32);
+  rotate(0.4 + boatTilt * 1.3);
+  fill(210, 170, 130);
+  ellipse(8 + armSpread, 3, 7, 6);
+  fill(255, 200, 180);
+  ellipse(9 + armSpread, 3, 4, 3);
+  pop();
