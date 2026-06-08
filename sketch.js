@@ -315,6 +315,44 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   pop(); 
   drawCat(width / 2 + personX * 28, by + floatY);
   drawBalanceBar();
+
+function drawBalanceBar() {
+  let barX = width / 2 - 120;
+  let barY = 20;
+  let barW = 240;
+  let barH = 16;
+ 
+  noStroke();
+  fill(0, 0, 0, 50);
+  rect(barX - 12, barY - 6, barW + 24, barH + 32, 10);
+
+  fill(255, 255, 255, 180);
+  noStroke();
+  textSize(11);
+  textAlign(CENTER);
+  text("Balance", width / 2, barY + 8);
+
+  noStroke();
+  fill(255, 255, 255, 20);
+  rect(barX, barY + 14, barW, barH, barH / 2);
+
+  let score = balanceScore;
+  let barColor;
+  if (score > 70) barColor = color(100, 220, 140);
+  else if (score > 40) barColor = color(255, 195, 60);
+  else barColor = color(255, 85, 85);
+
+  fill(barColor);
+  let fillW = barW * score / 100;
+  rect(barX, barY + 14, fillW, barH, barH / 2);
+
+
+  stroke(255, 255, 255, 100);
+  strokeWeight(1);
+  line(width / 2, barY + 12, width / 2, barY + 14 + barH + 2);
+
+}
+
 }
 
   function drawCat(px, py) {
@@ -416,7 +454,6 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
   line(3, -42.5, 13, -44);
   line(3, -41.5, 13, -39);
 
- 
   noFill();
   stroke(180, 120, 100);
   strokeWeight(1);
@@ -435,7 +472,6 @@ naturalRock = sin(frameCount * 0.025) * 0.09;
     noStroke();
     ellipse(12, -40, 3, 4.5);
   }
-
 
   fill(255, 130, 130, 80);
   noStroke();
