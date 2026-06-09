@@ -111,8 +111,9 @@ function draw() {
     audioVolume = lerp(audioVolume, 0, 0.05);
   }
   // ===== END SOUND MECHANIC =====
-  
+
   drawSky(currentPhase);
+  drawSoundButton(); // Anusha - sound mechanic
   drawOcean(currentPhase);
 
   if (currentPhase === "reality") {
