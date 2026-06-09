@@ -10,6 +10,17 @@ let naturalRock = 0;
 let balanceScore = 100;   
 
 
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+let audioContext;
+let analyser;
+let audioDataArray;
+let audioVolume = 0;
+let audioSource;
+let audioBuffer;
+let isPlaying = false;
+let audioLoaded = false;
+// ===== END SOUND MECHANIC VARIABLES =====
+
 
 // ===== TIME MECHANIC =====
 let currentPhase = "reality";
