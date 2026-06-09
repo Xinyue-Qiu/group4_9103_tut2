@@ -11,14 +11,8 @@ let balanceScore = 100;
 
 
 // ===== SOUND MECHANIC — Anusha Jaiswal =====
-let audioContext;
-let analyser;
-let audioDataArray;
+let song, soundAnalyser;
 let audioVolume = 0;
-let audioSource;
-let audioBuffer;
-let isPlaying = false;
-let audioLoaded = false;
 // ===== END SOUND MECHANIC VARIABLES =====
 
 
@@ -606,46 +600,21 @@ function drawBalanceBar() {
   pop();
 }
 
-// ===== SOUND MECHANIC — Anusha Jaiswal =====
-function drawSoundButton() {
-  let bx = 30;
-  let by = height - 30;
-  let br = 18;
-  fill(0, 0, 0, 100);
-  noStroke();
-  circle(bx, by, br * 2);
-  fill(255, 255, 255, 220);
-  if (isPlaying) {
-    rect(bx - 7, by - 8, 5, 16, 1);
-    rect(bx + 2, by - 8, 5, 16, 1);
-  } else {
-    triangle(bx - 5, by - 9, bx - 5, by + 9, bx + 10, by);
-  }
-  noStroke();
-  fill(255, 255, 255, 160);
-  textSize(10);
-  textAlign(LEFT);
-  text(audioLoaded ? (isPlaying ? "♪ playing" : "♪ click to play") : "♪ loading...", bx + br + 4, by + 4);
-}
 
+
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
 function mousePressed() {
-  let bx = 30;
-  let by = height - 30;
-  let br = 18;
-  if (dist(mouseX, mouseY, bx, by) < br && audioLoaded) {
-    if (audioContext.state === 'suspended') audioContext.resume();
-    if (isPlaying) {
-      audioSource.stop();
-      isPlaying = false;
-    } else {
-      audioSource = audioContext.createBufferSource();
-      audioSource.buffer = audioBuffer;
-      audioSource.loop = true;
-      audioSource.connect(analyser);
-      analyser.connect(audioContext.destination);
-      audioSource.start();
-      isPlaying = true;
-    }
+  if (!audioLoaded) return;
+  if (audioContext.state === 'suspended') audioContext.resume();
+  if (!isPlaying) {
+    audioSource = audioContext.createBufferSource();
+    audioSource.buffer = audioBuffer;
+    audioSource.loop = true;
+    audioSource.connect(analyser);
+    analyser.connect(audioContext.destination);
+    audioSource.start();
+    isPlaying = true;
   }
 }
 // ===== END SOUND MECHANIC =====
+
