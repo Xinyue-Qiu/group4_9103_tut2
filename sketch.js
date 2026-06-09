@@ -55,7 +55,6 @@ function setup() {
 // ===== SOUND MECHANIC — Anusha Jaiswal =====
   soundAnalyser = new p5.Amplitude();
   soundAnalyser.setInput(song);
-  song.loop(); // Anusha - auto start on load
   // ===== END SOUND MECHANIC =====
 
   // Initialize stars with positions and flicker offset
@@ -578,14 +577,11 @@ function drawBalanceBar() {
 
 
 
-
 // ===== SOUND MECHANIC — Anusha Jaiswal =====
 function mousePressed() {
-  // kept for p5 autoplay unlock only
-}
-
-function touchStarted() {
-  if (song && !song.isPlaying()) song.loop();
+  if (song && !song.isPlaying()) {
+    song.loop();
+  }
 }
 // ===== END SOUND MECHANIC =====
 
