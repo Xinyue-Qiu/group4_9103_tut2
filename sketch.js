@@ -46,27 +46,7 @@ let timeOffset = 0;
 
 // ===== SOUND MECHANIC — Anusha Jaiswal =====
 function preload() {
-  fetch('assets/song.mp3')
-    .then(res => res.arrayBuffer())
-    .then(data => {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      analyser = audioContext.createAnalyser();
-      analyser.fftSize = 256;
-      audioDataArray = new Uint8Array(analyser.fftSize);
-      return audioContext.decodeAudioData(data);
-    })
-    .then(decoded => {
-      audioBuffer = decoded;
-      audioLoaded = true;
-      // Auto-play as soon as loaded
-      audioSource = audioContext.createBufferSource();
-      audioSource.buffer = audioBuffer;
-      audioSource.loop = true;
-      audioSource.connect(analyser);
-      analyser.connect(audioContext.destination);
-      audioSource.start();
-      isPlaying = true;
-    });
+  song = loadSound('assets/song.mp3');
 }
 // ===== END SOUND MECHANIC PRELOAD =====
 
