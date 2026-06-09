@@ -187,7 +187,10 @@ function drawOcean(stage) {
     waveFreq = 0.015;
   }
 
-
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+  waveAmplitude = waveAmplitude * (1 + audioVolume * 3);
+  // ===== END SOUND MECHANIC =====
+  
   // Calculate wave y positions for each x
   let waveVertices = [];
   for (let x = 0; x <= width; x += 8) {
