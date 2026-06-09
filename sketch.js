@@ -190,7 +190,7 @@ function drawOcean(stage) {
 // ===== SOUND MECHANIC — Anusha Jaiswal =====
   waveAmplitude = waveAmplitude * (1 + audioVolume * 3);
   // ===== END SOUND MECHANIC =====
-  
+
   // Calculate wave y positions for each x
   let waveVertices = [];
   for (let x = 0; x <= width; x += 8) {
@@ -597,3 +597,47 @@ function drawBalanceBar() {
 
   pop();
 }
+
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+function drawSoundButton() {
+  let bx = 30;
+  let by = height - 30;
+  let br = 18;
+  fill(0, 0, 0, 100);
+  noStroke();
+  circle(bx, by, br * 2);
+  fill(255, 255, 255, 220);
+  if (isPlaying) {
+    rect(bx - 7, by - 8, 5, 16, 1);
+    rect(bx + 2, by - 8, 5, 16, 1);
+  } else {
+    triangle(bx - 5, by - 9, bx - 5, by + 9, bx + 10, by);
+  }
+  noStroke();
+  fill(255, 255, 255, 160);
+  textSize(10);
+  textAlign(LEFT);
+  text(audioLoaded ? (isPlaying ? "♪ playing" : "♪ click to play") : "♪ loading...", bx + br + 4, by + 4);
+}
+
+function mousePressed() {
+  let bx = 30;
+  let by = height - 30;
+  let br = 18;
+  if (dist(mouseX, mouseY, bx, by) < br && audioLoaded) {
+    if (audioContext.state === 'suspended') audioContext.resume();
+    if (isPlaying) {
+      audioSource.stop();
+      isPlaying = false;
+    } else {
+      audioSource = audioContext.createBufferSource();
+      audioSource.buffer = audioBuffer;
+      audioSource.loop = true;
+      audioSource.connect(analyser);
+      analyser.connect(audioContext.destination);
+      audioSource.start();
+      isPlaying = true;
+    }
+  }
+}
+// ===== END SOUND MECHANIC =====
