@@ -64,6 +64,14 @@ function preload() {
     .then(decoded => {
       audioBuffer = decoded;
       audioLoaded = true;
+      // Auto-play as soon as loaded
+      audioSource = audioContext.createBufferSource();
+      audioSource.buffer = audioBuffer;
+      audioSource.loop = true;
+      audioSource.connect(analyser);
+      analyser.connect(audioContext.destination);
+      audioSource.start();
+      isPlaying = true;
     });
 }
 // ===== END SOUND MECHANIC PRELOAD =====
@@ -113,7 +121,7 @@ function draw() {
   // ===== END SOUND MECHANIC =====
 
   drawSky(currentPhase);
-  drawSoundButton(); // Anusha - sound mechanic
+
   drawOcean(currentPhase);
 
   if (currentPhase === "reality") {
