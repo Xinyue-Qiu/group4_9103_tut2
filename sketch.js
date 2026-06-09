@@ -50,6 +50,24 @@ let timeline = [
 let eventIndex = 0;
 let timeOffset = 0;
 
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+function preload() {
+  fetch('assets/song.mp3')
+    .then(res => res.arrayBuffer())
+    .then(data => {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioContext.createAnalyser();
+      analyser.fftSize = 256;
+      audioDataArray = new Uint8Array(analyser.fftSize);
+      return audioContext.decodeAudioData(data);
+    })
+    .then(decoded => {
+      audioBuffer = decoded;
+      audioLoaded = true;
+    });
+}
+// ===== END SOUND MECHANIC PRELOAD =====
+
 function setup() {
   createCanvas(960, 540);
 
