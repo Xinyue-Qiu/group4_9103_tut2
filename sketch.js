@@ -52,7 +52,11 @@ function preload() {
 
 function setup() {
   createCanvas(960, 540);
-
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+  soundAnalyser = new p5.Amplitude();
+  soundAnalyser.setInput(song);
+  // ===== END SOUND MECHANIC =====
+  
   // Initialize stars with positions and flicker offset
   for (let i = 0; i < 100; i++) {
     stars.push({
