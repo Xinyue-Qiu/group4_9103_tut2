@@ -96,7 +96,22 @@ function draw() {
     handleEvent(timeline[eventIndex].event);
     eventIndex++;
   }
-
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+  if (analyser && isPlaying) {
+    analyser.getByteTimeDomainData(audioDataArray);
+    let sum = 0;
+    for (let i = 0; i < audioDataArray.length; i++) {
+      let sample = (audioDataArray[i] - 128) / 128;
+      sum += sample * sample;
+    }
+    let rms = sqrt(sum / audioDataArray.length);
+    let rawVolume = constrain(map(rms, 0, 0.5, 0, 1), 0, 1);
+    audioVolume = lerp(audioVolume, rawVolume, 0.15);
+  } else {
+    audioVolume = lerp(audioVolume, 0, 0.05);
+  }
+  // ===== END SOUND MECHANIC =====
+  
   drawSky(currentPhase);
   drawOcean(currentPhase);
 
