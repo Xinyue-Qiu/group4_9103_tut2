@@ -165,7 +165,7 @@ function drawOcean(stage) {
   }
 
 // ===== SOUND MECHANIC — Anusha Jaiswal =====
-  waveAmplitude = waveAmplitude * (1 + audioVolume * 3);
+  waveAmplitude = waveAmplitude * (1 + audioVolume * 8);
   // ===== END SOUND MECHANIC =====
 
   // Calculate wave y positions for each x
