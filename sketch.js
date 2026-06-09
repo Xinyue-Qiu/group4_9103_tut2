@@ -577,19 +577,16 @@ function drawBalanceBar() {
 
 
 
+
 // ===== SOUND MECHANIC — Anusha Jaiswal =====
 function mousePressed() {
-  if (!audioLoaded) return;
-  if (audioContext.state === 'suspended') audioContext.resume();
-  if (!isPlaying) {
-    audioSource = audioContext.createBufferSource();
-    audioSource.buffer = audioBuffer;
-    audioSource.loop = true;
-    audioSource.connect(analyser);
-    analyser.connect(audioContext.destination);
-    audioSource.start();
-    isPlaying = true;
+  if (!song) return;
+  if (song.isPlaying()) {
+    song.stop();
+  } else {
+    song.loop();
   }
 }
 // ===== END SOUND MECHANIC =====
+
 
