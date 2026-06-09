@@ -359,7 +359,7 @@ function drawBoat(stage) {
 naturalRock = sin(frameCount * 0.025) * 0.09;
   let targetPersonX = map(mouseX, 0, width, -1, 1);
   personX = lerp(personX, targetPersonX, 0.08);
-  let targetTilt = naturalRock + personX * 0.15;
+  let targetTilt = naturalRock + personX * 0.15 + (audioVolume * 0.4);  // Anusha - volume tilts boat
   boatTilt = lerp(boatTilt, targetTilt, 0.06);
   balanceScore = lerp(balanceScore,
     constrain((1 - abs(boatTilt) / 0.25) * 100, 0, 100), 0.08);
