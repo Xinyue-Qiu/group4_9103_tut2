@@ -66,6 +66,8 @@ function setup() {
       offset: random(TWO_PI)
     });
   }
+
+  initFishSchool(10);// Innitilise fish school 
 }
 
 function draw() {
@@ -91,22 +93,28 @@ function draw() {
 
   drawSky(currentPhase);
 
-  drawOcean(currentPhase);
-
   if (currentPhase === "reality") {
     drawSun(currentPhase);
-    drawBoat(currentPhase);
+  
   } else if (currentPhase === "dream") {
     drawMoon(currentPhase);
     drawStars(currentPhase);
-    drawBoat(currentPhase);
+    
   } else if (currentPhase === "galaxy") {
     drawStars(currentPhase);
-    drawBoat(currentPhase);
+    
   } else {
     drawSun(currentPhase);
-    drawBoat(currentPhase);
+    
   }
+
+  updateWhale();   
+
+  drawOcean(currentPhase);
+
+  drawBoat(currentPhase);
+
+  updateFishSchool(); 
 }
 
 // Sky gradient per stage
