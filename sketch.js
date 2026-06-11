@@ -471,7 +471,7 @@ function drawBalanceBar() {
   noFill();
   stroke(200, 160, 120);
   strokeWeight(3);
-  let tailCurl = boatTilt * 3;
+  let tailCurl = boatTilt * 3 + audioVolume * 8; // Anusha - tail curls with volume
   beginShape();
   vertex(6, -12);
   bezierVertex(22, -10, 30 + tailCurl * 8, -28, 18, -45 + tailCurl * 5);
