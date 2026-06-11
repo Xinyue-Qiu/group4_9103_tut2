@@ -108,6 +108,8 @@ function draw() {
     
   }
 
+  drawBackWave()
+
   updateWhale();   
 
   drawOcean(currentPhase);
@@ -115,6 +117,8 @@ function draw() {
   drawBoat(currentPhase);
 
   updateFishSchool(); 
+
+  drawFrontWave();
 }
 
 // Sky gradient per stage
