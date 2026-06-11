@@ -50,6 +50,9 @@ function preload() {
 }
 // ===== END SOUND MECHANIC PRELOAD =====
 
+let targetFloatAmount = 5;
+let currentFloatAmount = 5;
+
 function setup() {
   createCanvas(960, 540);
 // ===== SOUND MECHANIC — Anusha Jaiswal =====
@@ -310,6 +313,7 @@ function drawStars(stage) {
 function handleEvent(eventName) {
   if (eventName === "startReality") {
     currentPhase = "reality";
+    targetFloatAmount = 5;
   }
   if (eventName === "sunSetMoonRise") {
     // Sun fades out, moon fades in
@@ -318,7 +322,7 @@ function handleEvent(eventName) {
     currentPhase = "dream";
   }
   if (eventName === "boatRise") {
-    // Boat float amplitude increases
+    targetFloatAmount = 12;
   }
   if (eventName === "oceanDistort") {
     // Ocean waves become irregular
@@ -328,6 +332,7 @@ function handleEvent(eventName) {
   }
   if (eventName === "startGalaxy") {
     currentPhase = "galaxy";
+    targetFloatAmount = 20;
   }
   if (eventName === "starsSwirl") {
     // Stars form spiral flow
@@ -342,7 +347,7 @@ function handleEvent(eventName) {
     currentPhase = "awakening";
   }
   if (eventName === "boatDrop") {
-    // Boat begins falling
+    targetFloatAmount = 5;
   }
   if (eventName === "oceanReturn") {
     // Ocean reappears
@@ -596,5 +601,3 @@ function mousePressed() {
   }
 }
 // ===== END SOUND MECHANIC =====
-
-
