@@ -42,6 +42,16 @@ This audio interaction mechanism is inspired by Vincent van Gogh’s The Starry 
 The visual design uses particles, dots, and flowing curves to recreate the emotional brushstroke style of The Starry Night. Users can interact with the artwork by speaking, clapping, or singing, allowing their sound to directly influence the digital sky.
 
 
+### 1.2 Audio- Reactive Ocean
+**Owner：Anusha Jaiswal**
+Sound was always in the painting, I just needed to find it. The ocean does not sit flat, it churns and rolls, restless in a way that always felt like it had a rhythm underneath. I wanted to make that rhythm audible, and then let it work the other way: let sound become the ocean.
+
+The mechanic uses p5.sound's Amplitude analyser to read the live volume of a looping audio track every frame. That single number — how loud the music is right now — gets mapped onto everything that moves in the water. When the track swells, the waves surge upward, their amplitude multiplying with the sound. When it quiets, they settle back. The ocean breathes with the music.
+
+It does not stop at the water. The boat feels it too. Loud moments push extra tilt into the hull, so the cat on deck has to fight the music as well as its own weight. The cat's tail responds independently, curling tighter and higher as the volume climbs, relaxed and loose when things are calm. It is a small detail but it makes the animal feel present, aware of something the viewer can hear.
+
+The audio starts on the first click anywhere on the canvas. A small prompt at the bottom edge guides the viewer in. After that it loops and the painting stays in motion, the ocean never quite the same shape twice.
+
 ### 2. Time-Based Mechanic
 **Owner: Xinyue Qiu**
 
