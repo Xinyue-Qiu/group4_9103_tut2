@@ -84,7 +84,12 @@ the way down. The body is built from flat polygon facets shaded in brightness
 bands, with no outline.
 
 **Anna (Yujing Zhang)**
-*[To be filled by Anna]*
+I create visual effects driven by sound frequency, with three distinct scenes designed as follows:
+##Seagulls: The higher the sound frequency, the farther the seagulls move in the opposite direction, and the faster their wings flap in the daytime.
+##Rainy night: When it rains at night, higher sound frequency makes the rainfall intensify and fall faster.
+##Clear night (no rain): On rainless clear nights, more meteors appear as the sound frequency rises.
+Nush and I use the same audio source, yet our resulting visual presentations are completely different.
+
 
 **Anusha Jaiswal — Audio mechanic**
 Uses `p5.Amplitude` to read live volume from a looping audio track. The volume value drives wave amplitude (louder = bigger waves) and adds extra tilt to the boat. The cat's tail curls tighter as volume climbs. Audio starts on first canvas click.
@@ -102,6 +107,9 @@ I used Claude as a coding and design partner — to discuss ideas, draft and
 iterate on code, and check that every function stayed within what was taught in
 class. All design decisions, tuning, and final code were reviewed and decided by
 me.
+
+**Yu jing Zhang - voice frequency part**
+I utilized AI tools for two key aspects of development: (1) generating initial code snippets relevant to sound frequency-driven visual interactions (including seagull movement, rainfall intensity, and meteor appearance dynamics); (2) seeking guidance on debugging and resolving technical bugs encountered during implementation. All AI-generated code was thoroughly read, understood, modified to align with the project’s interactive logic, and integrated into the final submission. Additionally, all design decisions, parameter tuning (e.g., frequency-response sensitivity, animation speed), and functional validation were independently reviewed and finalized by myself.
 
 ---
 
