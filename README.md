@@ -56,12 +56,31 @@ By the peak phase, it is almost chaotic. Swirls everywhere, particles moving fas
 And then it settles. Colours fade back, motion slows, the cycle resets. I set timers across five dimensions so the whole system transitions together, palette and speed and brightness all shifting smoothly over a few minutes. The idea is not that anyone clocks the changes consciously, just that they feel the whole thing breathing, alive, changing in the background while everything else is happening.
 
 ### 3. Perlin Noise & Randomness
-**Owner: Yichen Yao**
-To fulfill the requirement of integrating Perlin noise and randomness without overlapping with direct user input (Mechanic 4), my mechanic acts as the global mathematical engine driving the kinetic energy of Van Gogh's The Starry Night. I will use random() to initialize the coordinates of digital 'brushstroke' particles. Their continuous movement is guided by a global 2D Perlin noise flow field (noise()), which perfectly simulates the painting's turbulent, spiraling atmosphere.
+**Owner: Yichen Yao** File: Perlinnoise.js
+#### Concept
+My mechanic is Perlin noise and randomness, realised as the living marine
+life of the group's ocean scene: a school of fish and an occasional
+whale. The aim is for randomness to look calm and alive rather than chaotic —
+every fish follows the same rules, yet no two move alike, and the scene never
+plays out the same way twice.
+#### What I built
+Fish school (Fish class). random() sets each fish's size, body shape,
+position, speed, and colour, so one class produces a varied school. Each fish
+picks its colour from a four-colour palette drawn from the four phase
+backgrounds, so the school always matches the current phase. A random() depth
+value (z-axis) scales size, colour, and speed — near fish are large, vivid, and
+fast; far fish small, faded, and slow — and the school is sorted by depth for a
+front-to-back sense of space. Motion comes from noise(), which slowly drifts
+each fish's swim lane up and down, plus a sin() bob and a delayed-phase sin()
+tail sway that bends the body into a soft S-shape.
+Whale (Whale class). random() is checked against a low probability each
+frame, so the whale breaches only rarely. It follows a parabolic arc (4t(1−t))
+whose speed depends on height — fast leaving the water, slow at the apex, fast on
+the way down. The body is built from flat polygon facets shaded in brightness
+bands, with no outline.
+Wave layers. Two phase-shifted sin() wave bands, one behind
+and one in front of the fish, make the school look like it is inside the water.
 
-Besides,instead of canvas interaction, the user engages with this mechanism via an on-screen UI Control Panel. The user can click a "Regenerate Cosmos" button to trigger a new noiseSeed() and randomSeed(). This instantly recalculates the entire mathematical wind field, morphing the canvas into a new procedural iteration. 
-
-This approach separates macro-environmental control from micro-level canvas interactions. It connects to our vision by giving the audience a "director's perspective." While they don't touch the stars directly, they are interacting with the underlying generative logic, orchestrating the invisible cosmic winds that shape the living masterpiece.
 
 
 ### 4. User input -Mouse-Controlled Balance System

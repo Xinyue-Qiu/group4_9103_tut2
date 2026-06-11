@@ -1,3 +1,7 @@
+// IDEA9103 Group Project — The Starry Night
+// Time Mechanic by Xinyue Qiu
+// User Input Mechanic by Danlin Liu 
+
 let stars = [];
 // ===== USER INPUT  =====
 let personX = 0;      
@@ -5,6 +9,11 @@ let boatTilt = 0;
 let naturalRock = 0;     
 let balanceScore = 100;   
 
+
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+let song, soundAnalyser;
+let audioVolume = 0;
+// ===== END SOUND MECHANIC VARIABLES =====
 
 
 // ===== TIME MECHANIC =====
@@ -35,8 +44,18 @@ let timeline = [
 let eventIndex = 0;
 let timeOffset = 0;
 
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+function preload() {
+  song = loadSound('assets/song.mp3');
+}
+// ===== END SOUND MECHANIC PRELOAD =====
+
 function setup() {
   createCanvas(960, 540);
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+  soundAnalyser = new p5.Amplitude();
+  soundAnalyser.setInput(song);
+  // ===== END SOUND MECHANIC =====
 
   // Initialize stars with positions and flicker offset
   for (let i = 0; i < 100; i++) {
@@ -47,6 +66,8 @@ function setup() {
       offset: random(TWO_PI)
     });
   }
+
+  initFishSchool(10);// Innitilise fish school 
 }
 
 function draw() {
@@ -64,23 +85,40 @@ function draw() {
     eventIndex++;
   }
 
+  // ===== SOUND MECHANIC — Anusha Jaiswal =====
+  if (soundAnalyser) {
+    audioVolume = soundAnalyser.getLevel();
+  }
+  // ===== END SOUND MECHANIC =====
+
   drawSky(currentPhase);
-  drawOcean(currentPhase);
 
   if (currentPhase === "reality") {
     drawSun(currentPhase);
-    drawBoat(currentPhase);
+  
   } else if (currentPhase === "dream") {
     drawMoon(currentPhase);
     drawStars(currentPhase);
-    drawBoat(currentPhase);
+    
   } else if (currentPhase === "galaxy") {
     drawStars(currentPhase);
-    drawBoat(currentPhase);
+    
   } else {
     drawSun(currentPhase);
-    drawBoat(currentPhase);
+    
   }
+
+  drawBackWave()
+
+  updateWhale();   
+
+  drawOcean(currentPhase);
+
+  drawBoat(currentPhase);
+
+  updateFishSchool(); 
+
+  drawFrontWave();
 }
 
 // Sky gradient per stage
@@ -101,106 +139,169 @@ function drawSky(stage) {
     bottomColor = color(255, 235, 195);
   }
 
-  for (let y = 0; y < height / 2; y++) {
-    let inter = map(y, 0, height / 2, 0, 1);
-    let c = lerpColor(topColor, bottomColor, inter);
+  for (let y = 0; y < height; y++) {
+   let inter = map(y, 0, height, 0, 1);
+   let c = lerpColor(topColor, bottomColor, inter);
     stroke(c);
     line(0, y, width, y);
   }
 }
 
-// Ocean gradient + wave animation
 function drawOcean(stage) {
-  let topColor, bottomColor, waveAmplitude, waveSpeed;
+    let topColor, bottomColor, waveAmplitude, waveSpeed, waveFreq;
 
-  if (stage === "reality") {
+   if (stage === "reality") {
     topColor = color(110, 140, 185);
     bottomColor = color(50, 75, 130);
-    waveAmplitude = 5;
+    waveAmplitude = 15;
     waveSpeed = 0.03;
+    waveFreq = 0.015;
   } else if (stage === "dream") {
     topColor = color(155, 120, 190);
     bottomColor = color(90, 70, 140);
-    waveAmplitude = 8;
+    waveAmplitude = 25;
     waveSpeed = 0.04;
+    waveFreq = 0.02;
   } else if (stage === "galaxy") {
     topColor = color(35, 40, 100);
     bottomColor = color(10, 10, 40);
-    waveAmplitude = 12;
-    waveSpeed = 0.05;
+    waveAmplitude = 40;
+    waveSpeed = 0.06;
+    waveFreq = 0.025;
   } else {
     topColor = color(175, 140, 180);
     bottomColor = color(100, 105, 160);
-    waveAmplitude = 6;
+    waveAmplitude = 18;
     waveSpeed = 0.03;
+    waveFreq = 0.015;
   }
 
-  noStroke();
-  // Gradient ocean
-  for (let y = height / 2; y < height; y++) {
-    let inter = map(y, height / 2, height, 0, 1);
-    let c = lerpColor(topColor, bottomColor, inter);
-    stroke(c);
-    line(0, y, width, y);
-  }
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+  waveAmplitude = waveAmplitude * (1 + audioVolume * 8);
+  // ===== END SOUND MECHANIC =====
 
-  // Animated waves overlay
-  stroke(255, 255, 255, 60);
-  strokeWeight(2);
-  noFill();
-  beginShape();
+  // Calculate wave y positions for each x
+  let waveVertices = [];
   for (let x = 0; x <= width; x += 8) {
-    let waveY = height / 2 + sin(frameCount * waveSpeed + x * 0.015) * waveAmplitude;
-    vertex(x, waveY);
+    let wy = height / 2 + sin(frameCount * waveSpeed + x * waveFreq) * waveAmplitude;
+    waveVertices.push({ x: x, y: wy });
+  }
+
+  // Draw wave-shaped polygon: top edge = wave, bottom = canvas bottom
+  noStroke();
+  beginShape();
+  for (let i = 0; i < waveVertices.length; i++) {
+    let v = waveVertices[i];
+    let depthInter = map(v.y, height / 2, height, 0, 1);
+    fill(lerpColor(topColor, bottomColor, depthInter));
+    vertex(v.x, v.y);
   }
   vertex(width, height);
   vertex(0, height);
   endShape(CLOSE);
+
+  // Highlight line on top of the wave
+  stroke(255, 255, 255, 50);
+  strokeWeight(1.5);
+  noFill();
+  beginShape();
+  for (let v of waveVertices) {
+    vertex(v.x, v.y);
+  }
+  endShape();
 }
+
 
 // Sun with variable glow per stage
 function drawSun(stage) {
   noStroke();
-  let glowSizes = {reality: [140,100,55], awakening:[120,80,55]};
-  let sizes = glowSizes[stage] || [140,100,55];
-
+  
+  // Sun moves from below horizon up into sky during reality
+  let sunYPos;
+  if (stage === "reality") {
+    // Sun rises from y=height/2 to final position over 15s
+    let t = constrain(map(millis() - timeOffset, 0, 8000, 0, 1), 0, 1);
+    sunYPos = height / 2 + lerp(50, -60, easeOutCubic(t));
+  } else {
+    // Awakening: sun rises back up
+    let t = constrain(map(millis() - timeOffset, 55000, 62000, 0, 1), 0, 1);
+    sunYPos = lerp(height * 0.5, height * 0.22, easeOutCubic(t));
+  }
+  
+  let glowSizes = [140, 100, 55];
   fill(255, 220, 180, 20);
-  circle(width * 0.78, height * 0.22, sizes[0]);
+  circle(width * 0.78, sunYPos, glowSizes[0]);
   fill(255, 220, 180, 50);
-  circle(width * 0.78, height * 0.22, sizes[1]);
+  circle(width * 0.78, sunYPos, glowSizes[1]);
   fill(255, 220, 180);
-  circle(width * 0.78, height * 0.22, sizes[2]);
+  circle(width * 0.78, sunYPos, glowSizes[2]);
 }
+
+// Helper function for smooth easing (like real motion)
+function easeOutCubic(t) {
+  return 1 - pow(1 - t, 3);
+}
+
 
 // Moon with glow per stage
 function drawMoon(stage) {
   noStroke();
-  let glowSizes = {dream:[180,130,90], galaxy:[200,160,100]};
-  let sizes = glowSizes[stage] || [180,130,90];
-
+  
+  // Moon rises when dream starts
+  let moonYPos;
+  if (stage === "dream") {
+    let t = constrain(map(millis() - timeOffset, 15000, 21000, 0, 1), 0, 1);
+    moonYPos = lerp(height * 0.5, height * 0.22, easeOutCubic(t));
+  } else if (stage === "galaxy") {
+    moonYPos = height * 0.22; // stays in place
+  } else {
+    moonYPos = -60; // hidden in other phases
+  }
+  
+  if (moonYPos < -30) return; // don't draw if off screen
+  
+  let glowSizes = [180, 130, 90];
   fill(255, 240, 220, 15);
-  circle(width*0.78, height*0.22, sizes[0]);
+  circle(width * 0.78, moonYPos, glowSizes[0]);
   fill(255, 240, 220, 30);
-  circle(width*0.78, height*0.22, sizes[1]);
+  circle(width * 0.78, moonYPos, glowSizes[1]);
   fill(255, 240, 220, 60);
-  circle(width*0.78, height*0.22, sizes[2]);
+  circle(width * 0.78, moonYPos, glowSizes[2]);
   fill(255, 245, 225);
-  circle(width*0.78, height*0.22, 55);
+  circle(width * 0.78, moonYPos, 55);
 }
 
-// Stars with flicker per stage
+// Stars: count changes per phase, flickers with sin()
 function drawStars(stage) {
-  let starCount = 20;
-  if(stage==="dream") starCount=30;
-  else if(stage==="galaxy") starCount=80;
-  else if(stage==="awakening") starCount=40;
+  let targetCount;
+  if (stage === "reality") targetCount = 0;      // no stars in reality
+  else if (stage === "dream") targetCount = 30;
+  else if (stage === "galaxy") targetCount = 80;
+  else targetCount = 40;
 
-  for (let i = 0; i < starCount; i++) {
+  // Only draw up to targetCount (stars fade in as count grows)
+  for (let i = 0; i < targetCount; i++) {
+    // Make sure we have enough stars initialized
+    if (i >= stars.length) {
+      stars.push({
+        x: random(width),
+        y: random(height / 2),
+        size: random(1, 3),
+        offset: random(TWO_PI)
+      });
+    }
     let s = stars[i];
-    let brightness = map(sin(frameCount*0.05 + s.offset), -1, 1, 180, 255);
+    
+    // Stars drift slightly in dream/galaxy phases
+    let driftY = 0;
+    if (stage === "dream" || stage === "galaxy") {
+      driftY = sin(frameCount * 0.01 + s.offset) * 2;
+    }
+    
+    let brightness = map(sin(frameCount * 0.05 + s.offset), -1, 1, 150, 255);
     fill(brightness, brightness, brightness);
     noStroke();
-    circle(s.x, s.y, s.size);
+    circle(s.x, s.y + driftY, s.size);
   }
 }
 
@@ -269,7 +370,7 @@ function drawBoat(stage) {
 naturalRock = sin(frameCount * 0.025) * 0.09;
   let targetPersonX = map(mouseX, 0, width, -1, 1);
   personX = lerp(personX, targetPersonX, 0.08);
-  let targetTilt = naturalRock + personX * 0.15;
+  let targetTilt = naturalRock + personX * 0.15 + (audioVolume * 0.4);  // Anusha - volume tilts boat
   boatTilt = lerp(boatTilt, targetTilt, 0.06);
   balanceScore = lerp(balanceScore,
     constrain((1 - abs(boatTilt) / 0.25) * 100, 0, 100), 0.08);
@@ -485,3 +586,15 @@ function drawBalanceBar() {
 
   pop();
 }
+
+
+
+// ===== SOUND MECHANIC — Anusha Jaiswal =====
+function mousePressed() {
+  if (song && !song.isPlaying()) {
+    song.loop();
+  }
+}
+// ===== END SOUND MECHANIC =====
+
+
