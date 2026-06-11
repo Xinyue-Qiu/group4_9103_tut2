@@ -67,7 +67,21 @@ A 70-second timeline (`millis()` + `timeOffset`) cycles through four phases: **R
 *[To be filled by Danlin]*
 
 **Yichen Yao — Perlin noise & randomness**
-*[To be filled by Yichen]*
+#### Fish school (Fish class). `random()` sets each fish's size, body shape,
+position, speed, and colour, so one class produces a varied school. Each fish
+picks its colour from a four-colour palette drawn from the four phase
+backgrounds, so the school always matches the current phase. A `random()` depth
+value (z-axis) scales size, colour, and speed — near fish are large, vivid, and
+fast; far fish small, faded, and slow — and the school is sorted by depth for a
+front-to-back sense of space. Motion comes from `noise()`, which slowly drifts
+each fish's swim lane up and down, plus a `sin()` bob and a delayed-phase `sin()`
+tail sway that bends the body into a soft S-shape.
+
+#### Whale (Whale class). random() is checked against a low probability each
+frame, so the whale breaches only rarely. It follows a parabolic `arc (4t(1−t))`
+whose speed depends on height — fast leaving the water, slow at the apex, fast on
+the way down. The body is built from flat polygon facets shaded in brightness
+bands, with no outline.
 
 **Anna (Yujing Zhang)**
 *[To be filled by Anna]*
@@ -82,6 +96,12 @@ Uses `p5.Amplitude` to read live volume from a looping audio track. The volume v
 - **Xinyue Qiu (Time-based mechanic)**: AI assistance was used for: (1) refining the `timeline` array architecture and event-triggering logic; (2) implementing the `easeOutCubic()` easing function for smooth sun/moon animation; (3) developing the wave-as-horizon approach (`beginShape()` polygon instead of a rectangle). All generated code was read, understood, and commented in `sketch.js` before submission.
 
 *[Other team members: please add your own AI acknowledgements here.]*
+
+**Yichen Yao — Perlin noise & randomness**
+I used Claude as a coding and design partner — to discuss ideas, draft and
+iterate on code, and check that every function stayed within what was taught in
+class. All design decisions, tuning, and final code were reviewed and decided by
+me.
 
 ---
 
