@@ -119,6 +119,18 @@ function draw() {
   updateFishSchool(); 
 
   drawFrontWave();
+
+  // ===== SOUND MECHANIC — Anusha Jaiswal =====
+  if (!song || !song.isPlaying()) {
+    noStroke();
+    fill(0, 0, 0, 120);
+    rect(width/2 - 100, height - 35, 200, 24, 12);
+    fill(255, 255, 255, 200);
+    textSize(11);
+    textAlign(CENTER);
+    text("♪ click anywhere to start", width/2, height - 19);
+  }
+  // ===== END SOUND MECHANIC =====
 }
 
 // Sky gradient per stage
