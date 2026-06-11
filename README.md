@@ -64,16 +64,18 @@ Besides,instead of canvas interaction, the user engages with this mechanism via 
 This approach separates macro-environmental control from micro-level canvas interactions. It connects to our vision by giving the audience a "director's perspective." While they don't touch the stars directly, they are interacting with the underlying generative logic, orchestrating the invisible cosmic winds that shape the living masterpiece.
 
 
-### 4. User input — Vortex disturbance
+### 4. User input -Mouse-Controlled Balance System
 **Owner: Danlin Liu**
 
-The user input mechanic turns the viewer into someone who can actually touch the sky. By default, the particles on screen drift along the same kind of swirling paths you see in Van Gogh's brushstrokes. Nothing happens until you move the mouse.
+This sketch introduces a mouse-driven balance mechanic centred on a wooden boat navigating a dreamlike seascape. A small cat character stands aboard the vessel, and the player's horizontal mouse position determines where the cat stands on the deck — moving the cursor left shifts the cat to the left side of the boat, while moving right does the opposite.
 
-When you drag the mouse across the canvas, a new vortex centre appears at the cursor. Nearby particles get pulled toward it and start orbiting in spirals, like a small version of the big swirl in the upper-right corner of the original painting. You can create several of these at once, so the night sky ends up with multiple focal points layered on top of each other. When you stop dragging, the vortex slowly loses energy and dissolves back into the regular flow.
+The boat responds physically to this weight displacement: the further the cat stands from the centre, the more the hull tilts. A natural wave oscillation is layered on top, meaning the player must constantly make subtle adjustments to counteract both their own movement and the sea's rhythm.
 
-If you press and hold the mouse without moving, something different happens. Energy builds up at that spot, and when you release, it bursts outward in a ring of light, the same way Van Gogh's stars seem to radiate brightness into the surrounding sky.
+A Balance Bar at the top of the canvas provides real-time feedback, shifting from green to yellow to red as the tilt increases. The cat's body language reinforces this — whiskers steady and expression calm when balanced, paws spread wide and eyes wide with alarm when the boat leans dangerously.
 
-This ties back to the project vision because the whole point is to make the painting something you can reach into rather than just look at. The viewer is not watching the night sky. They are pushing it around.
+The interaction invites a meditative quality: there is no winning or losing, only the ongoing negotiation between stillness and motion.
+
+
 
 
 
