@@ -122,6 +122,18 @@ function draw() {
   updateFishSchool(); 
 
   drawFrontWave();
+
+  // ===== SOUND MECHANIC — Anusha Jaiswal =====
+  if (!song || !song.isPlaying()) {
+    noStroke();
+    fill(0, 0, 0, 120);
+    rect(width/2 - 100, height - 35, 200, 24, 12);
+    fill(255, 255, 255, 200);
+    textSize(11);
+    textAlign(CENTER);
+    text("♪ click anywhere to start", width/2, height - 19);
+  }
+  // ===== END SOUND MECHANIC =====
 }
 
 // Sky gradient per stage
@@ -476,7 +488,7 @@ function drawBalanceBar() {
   noFill();
   stroke(200, 160, 120);
   strokeWeight(3);
-  let tailCurl = boatTilt * 3;
+  let tailCurl = boatTilt * 3 + audioVolume * 8; // Anusha - tail curls with volume
   beginShape();
   vertex(6, -12);
   bezierVertex(22, -10, 30 + tailCurl * 8, -28, 18, -45 + tailCurl * 5);
