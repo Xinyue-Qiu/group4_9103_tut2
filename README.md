@@ -72,6 +72,24 @@ drawBalanceBar() — draws a horizontal progress bar at the top of the canvas. T
 handleEvent(event) — the user input mechanic responds to phase changes triggered by the timeline. During the Galaxy phase (35000–55000 ms), waveAmplitude increases, which amplifies naturalRock and makes balancing harder.
 The cat is always drawn at width/2 + personX * 28, so the visual position matches the balance logic. The boat rotation pivot is the boat centre, so the cat stays correctly on deck as the boat tilts.
 
+### Perlinoise Key Function （Yichen Yao）
+Fish school. A school of fish drifts through the water, each one a different
+size, shape, and colour. Their colours are drawn from the four phase backgrounds
+(reality, dream, galaxy, awakening), so the school always stays in harmony with
+whichever phase is showing — some fish blend in, others read as accents. The
+fish also have a sense of depth: those "closer" to the viewer are larger, more
+vivid, and faster, while those "further away" are smaller, faded, and slower,
+giving the school a front-to-back sense of space. Each fish wanders up and down
+its own gentle path and sways its tail with a soft delay, so the body curves into
+an S-shape and reads as alive rather than rigid.
+
+Whale. Now and then, a whale breaches at a random, rare moment. It arcs out
+of the water and back down, moving quickly as it leaves the water, hanging for a
+beat at the top, then speeding up as it falls. Its body is built from flat
+colour facets shaded to suggest volume, with no outline, matching the scene's
+calm, dreamlike style.
+
+
 ---
 
 ## Mechanic Ownership
@@ -86,21 +104,22 @@ The mechanic uses three layered variables updated every frame. naturalRock gener
 
 
 **Yichen Yao — Perlin noise & randomness**
-#### Fish school (Fish class). `random()` sets each fish's size, body shape,
-position, speed, and colour, so one class produces a varied school. Each fish
-picks its colour from a four-colour palette drawn from the four phase
-backgrounds, so the school always matches the current phase. A `random()` depth
-value (z-axis) scales size, colour, and speed — near fish are large, vivid, and
-fast; far fish small, faded, and slow — and the school is sorted by depth for a
-front-to-back sense of space. Motion comes from `noise()`, which slowly drifts
-each fish's swim lane up and down, plus a `sin()` bob and a delayed-phase `sin()`
-tail sway that bends the body into a soft S-shape.
-
-#### Whale (Whale class). random() is checked against a low probability each
-frame, so the whale breaches only rarely. It follows a parabolic `arc (4t(1−t))`
-whose speed depends on height — fast leaving the water, slow at the apex, fast on
-the way down. The body is built from flat polygon facets shaded in brightness
-bands, with no outline.
+Randomness. `random()` sets each fish's size, body shape, position, speed,
+and palette colour, so a single Fish class produces a varied school. A
+`random()` depth value (z-axis) scales size, colour, and speed, and the school is
+sorted by depth so far fish draw behind near ones. The whale spawns when
+`random()` falls below a low probability each frame, making it rare and
+unpredictable.
+Perlin noise. Each fish carries its own `noise()` offset, which slowly drifts
+its vertical swim lane up and down — the core use of Perlin noise, producing
+smooth, never-repeating motion.
+Motion. `sin()` drives the vertical bob, the delayed-phase tail sway (the
+tail's phase lags the head), the whale's parabolic `arc (4t(1−t)`, with speed
+tied to height, and the two wave bands in waves.js.
+Drawing. Fish and whale bodies are flat faceted shapes built with
+`beginShape()`/`vertex()`/`endShape(CLOSE)` and shaded in brightness bands using
+colorMode(HSB) and fill(). The whale's mirrored tail flukes use
+`push()`/`translate()`/`rotate()`/`scale`()/`pop()`. 
 
 **Anna (Yujing Zhang)**
 I create frame-by-frame visual effects driven by audio frequency analysed via p5.FFT.The function updateFrequency calculates the average audio frequency from the sound spectrum.
