@@ -64,7 +64,17 @@ The audio starts on the first click anywhere on the canvas. A small prompt at th
 A 70-second timeline (`millis()` + `timeOffset`) cycles through four phases: **Reality** (bright, sun rises), **Dream** (purple, moon rises, stars appear), **Galaxy** (dark, chaotic waves, stars swirl), **Awakening** (dawn returns, sun reappears). A `timeline` array of `{ time, event }` objects triggers parameter changes at specific timestamps. `drawSky(stage)` fills the full canvas with a `lerpColor` vertical gradient. `drawOcean(stage)` draws a `beginShape()` polygon where the top edge is a `sin()` wave (the horizon is the wave itself). `drawSun()` and `drawMoon()` use `easeOutCubic()` for smooth entry animation. `drawStars()` handles star fade-in and swirl. Wave amplitude, frequency, and speed vary per phase.
 
 **Danlin Liu — User input**
-*[To be filled by Danlin]*
+The user's mouse position controls a balance mechanic on a wooden boat. The boat tilts in real time in response to cursor movement, and a balance score tracks stability. A cat character on the deck reacts to the tilt angle with changing facial expressions and tail movement.
+
+The mechanic uses three layered variables updated every frame. naturalRock generates a slow sinusoidal sway (sin(frameCount * 0.025) * 0.14) that simulates wave motion. personX maps the mouse X position to a normalised range (-1 to 1) and is smoothed with lerp() for gradual movement. boatTilt is the sum of naturalRock and the person's offset scaled by 0.28, also lerp()-smoothped. The balanceScore is derived from boatTilt using constrain() and lerp(), decreasing as the boat tilts further from centre.
+
+Key functions:
+
+drawBoat(stage) — draws the wooden boat hull using bezierVertex() for the curved shape, with plank lines and bench seats as detail. Applies push()/translate()/rotate(boatTilt)/pop() to tilt the entire boat around its centre. Calls drawCat() and drawBalanceBar() at the end.
+drawCat(px, py) — draws a sitting cat with triangular ears, whiskers, and a curling tail using ellipse(), triangle(), and sin() for tail animation. The cat's facial expression changes with boatTilt: a smile when balanced (abs(boatTilt) < 0.05), a neutral line when slightly tilted, and a worried open mouth with a sweat drop when severely tilted (abs(boatTilt) > 0.15).
+drawBalanceBar() — draws a horizontal progress bar at the top of the canvas. The fill colour transitions from green to yellow to red as balanceScore drops, using lerpColor() logic with threshold checks (> 70, > 40, < 40).
+handleEvent(event) — the user input mechanic responds to phase changes triggered by the timeline. During the Galaxy phase (35000–55000 ms), waveAmplitude increases, which amplifies naturalRock and makes balancing harder.
+The cat is always drawn at width/2 + personX * 28, so the visual position matches the balance logic. The boat rotation pivot is the boat centre, so the cat stays correctly on deck as the boat tilts.
 
 **Yichen Yao — Perlin noise & randomness**
 #### Fish school (Fish class). `random()` sets each fish's size, body shape,
@@ -98,9 +108,12 @@ Uses `p5.Amplitude` to read live volume from a looping audio track. The volume v
 
 ## AI Acknowledgement
 
-- **Xinyue Qiu (Time-based mechanic)**: AI assistance was used for: (1) refining the `timeline` array architecture and event-triggering logic; (2) implementing the `easeOutCubic()` easing function for smooth sun/moon animation; (3) developing the wave-as-horizon approach (`beginShape()` polygon instead of a rectangle). All generated code was read, understood, and commented in `sketch.js` before submission.
+**Xinyue Qiu (Time-based mechanic)**: AI assistance was used for: (1) refining the `timeline` array architecture and event-triggering logic; (2) implementing the `easeOutCubic()` easing function for smooth sun/moon animation; (3) developing the wave-as-horizon approach (`beginShape()` polygon instead of a rectangle). All generated code was read, understood, and commented in `sketch.js` before submission.
 
-*[Other team members: please add your own AI acknowledgements here.]*
+**Danlin Liu — user input**
+
+AI assistance was used for: (1) designing the three-variable balance physics architecture (naturalRock, personX, boatTilt) and tuning the lerp() smoothing parameters for natural feeling movement; (2) implementing the cat character's reactive facial expressions and tail animation using sin() and conditional drawing based on boatTilt thresholds; (3) debugging a while loop issue in the timeline event system where loopToReality caused all remaining events to trigger in a single frame — the fix involved adding a shouldBreak flag to exit the loop after a phase reset. All generated code was read, understood, and commented in sketch.js before submission.
+
 
 **Yichen Yao — Perlin noise & randomness**
 I used Claude as a coding and design partner — to discuss ideas, draft and
