@@ -16,8 +16,7 @@ The project is built in p5.js and combines five distinct generative mechanics:
 - **Wave horizon**: The ocean is drawn as a `beginShape()` polygon whose top edge follows a `sin()` wave — the horizon line itself is the wave, with no flat boundary between sky and ocean. Wave amplitude and frequency vary per phase.
 - **Perlin noise & randomness**: Organic distortion and natural-looking fish/whale movement using `noise()` to make the scene feel alive rather than mechanical.
 - **User input**: The user's mouse position controls a balance mechanic — the boat tilts in response to cursor movement, and a score tracks stability. The cat character reacts to the tilt angle in real time.
-- **Audio response**: A loaded audio track plays on mouse click. `p5.Amplitude` measures the volume level, which drives wave amplitude changes and boat tilt.
-
+-**Audio response: A looping audio track is loaded via loadSound() in preload(). p5.Amplitude measures the RMS volume level every frame via getLevel(), which returns a value between 0 and 1. This value drives wave amplitude in drawOcean(), boat tilt in drawBoat(), and tail curl in drawCat() — the louder the music, the more turbulent everything becomes.
 The sky and ocean gradients are drawn as stacked horizontal `line()` calls with `lerpColor()` for smooth colour blending. Phase transitions affect all visual parameters simultaneously.
 
 ### Time-based Mechanic Details (Xinyue Qiu)
@@ -104,7 +103,25 @@ Nush and I use the same audio source, yet our resulting visual presentations are
 
 
 **Anusha Jaiswal — Audio mechanic**
-Uses `p5.Amplitude` to read live volume from a looping audio track. The volume value drives wave amplitude (louder = bigger waves) and adds extra tilt to the boat. The cat's tail curls tighter as volume climbs. Audio starts on first canvas click.
+The mechanic uses p5.sound's Amplitude analyser to read the live volume of a looping audio track every frame. That single number — how loud the music is right now — gets mapped onto everything that moves in the water. When the track swells, the waves surge upward. When it quiets, they settle back. The ocean breathes with the music.
+Key variables:
+
+song — loaded via loadSound() in preload(), looped on first canvas click
+soundAnalyser — a p5.Amplitude instance created in setup() and connected to song via setInput()
+audioVolume — updated every frame via soundAnalyser.getLevel(), range 0–1
+
+Key functions and changes:
+
+preload() — loads assets/song.mp3 using p5.sound's loadSound()
+setup() — initialises p5.Amplitude, connects it to the song
+draw() — calls soundAnalyser.getLevel() every frame and stores the result in audioVolume
+drawOcean(stage) — the existing waveAmplitude variable is multiplied by (1 + audioVolume * 8) after the phase value is set, so loud moments scale the waves up to 8x their base height without overriding the phase system
+drawBoat(stage) — audioVolume * 0.4 is added to targetTilt, so loud moments push the boat off balance independently of the mouse position. This means the cat has to fight both the viewer's input and the music at once
+drawCat(px, py) — audioVolume * 8 is added to tailCurl, so the cat's tail curls dramatically upward during loud passages and relaxes during quiet ones. A small detail but it makes the animal feel reactive and alive
+mousePressed() — on first click anywhere on the canvas, song.loop() is called. A small pill-shaped prompt at the bottom of the canvas reads "♪ click anywhere to start" and disappears once the song is playing
+
+The audio track chosen is cinematic and dynamic, with clear loud and quiet passages, so the visual response feels intentional rather than random. The ocean never plays out the same shape twice.
+
 
 ---
 
