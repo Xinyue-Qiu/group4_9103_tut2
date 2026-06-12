@@ -108,7 +108,7 @@ Uses `p5.Amplitude` to read live volume from a looping audio track. The volume v
 
 ## AI Acknowledgement
 
-**Xinyue Qiu (Time-based mechanic)**: AI assistance was used for: (1) refining the `timeline` array architecture and event-triggering logic; (2) implementing the `easeOutCubic()` easing function for smooth sun/moon animation; (3) developing the wave-as-horizon approach (`beginShape()` polygon instead of a rectangle). All generated code was read, understood, and commented in `sketch.js` before submission.
+**Xinyue Qiu - Time-based mechanic**: AI assistance was used during the design and development of the time-based mechanic. AI was primarily used to help brainstorm scene transitions, refine the timeline structure, and troubleshoot implementation issues during coding. Suggestions related to event-driven architecture, animation timing, and visual transitions were reviewed, tested, modified, and integrated where appropriate. All final design decisions, code integration, debugging, and creative direction were completed by the author. Relevant AI-assisted sections are documented in sketch.js.
 
 **Danlin Liu — user input**
 
