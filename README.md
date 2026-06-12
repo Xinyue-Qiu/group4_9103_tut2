@@ -143,6 +143,11 @@ me.
 **Yu jing Zhang - voice frequency part**
 I utilized AI tools for two key aspects of development: (1) generating initial code snippets relevant to sound frequency-driven visual interactions (including seagull movement, rainfall intensity, and meteor appearance dynamics); (2) seeking guidance on debugging and resolving technical bugs encountered during implementation. All AI-generated code was thoroughly read, understood, modified to align with the project’s interactive logic, and integrated into the final submission. Additionally, all design decisions, parameter tuning (e.g., frequency-response sensitivity, animation speed), and functional validation were independently reviewed and finalized by myself.
 
+**Anusha Jaiswal- Audio volume part**
+I used Claude as a coding assistant throughout this mechanic. I knew what I wanted — sound driving the ocean — but needed help with the p5.Amplitude setup and figuring out where exactly to place the audioVolume multiplier inside drawOcean() so it worked on top of the phase system rather than replacing it. Browser autoplay policy was a frustrating bug to track down; AI helped me understand why song.loop() in setup() gets blocked and pointed me toward mousePressed() as the fix. The multiplier values (* 8 for waves and tail, * 0.4 for boat tilt) were tuned by me through trial and error in the browser. All code was read and understood before it went in.
+
+
+
 ---
 
 ## External References
