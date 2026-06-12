@@ -5,6 +5,10 @@
 Our project is based on Vincent van Gogh's *The Starry Night* (1889). We were drawn to the painting's sense of movement — the swirling sky, restless ocean, and the contrast between the glowing celestial bodies and the dark landscape below. Rather than recreating the painting statically, we wanted to capture its emotional progression: from the calm of early evening (Reality), into the dreamlike distortion of night (Dream), through a cosmic expansion (Galaxy), and finally back to a gentle dawn (Awakening). The four phases reflect how van Gogh's brushwork itself seems to shift in intensity — from quiet to turbulent to transcendent.
 ![Van Gogh](Vangoah.png)
 
+The balance mechanic draws loosely from physics-based awkward-control games such as Bennett Foddy's Getting Over It (2017) and the classic marble-labyrinth tilt genre, where the gap between player intention and physical outcome creates tension. The cat's reactive expressions extend this tradition by adding an emotional feedback layer — the character becomes a mirror for the player's performance.
+
+![Bennett Foddy's Getting Over It](Bennett-Foddy's-Getting-Over-It.png)
+
 
 ---
 
@@ -57,6 +61,38 @@ It does not stop at the water. The boat feels it too. Loud moments push extra ti
 
 The audio starts on the first click anywhere on the canvas. A small prompt at the bottom edge guides the viewer in. After that it loops and the painting stays in motion, the ocean never quite the same shape twice.
 
+### User Input Key funcation(Danlin Liu):
+
+Key functions:
+
+drawBoat(stage) — draws the wooden boat hull using bezierVertex() for the curved shape, with plank lines and bench seats as detail. Applies push()/translate()/rotate(boatTilt)/pop() to tilt the entire boat around its centre. Calls drawCat() and drawBalanceBar() at the end.
+drawCat(px, py) — draws a sitting cat with triangular ears, whiskers, and a curling tail using ellipse(), triangle(), and sin() for tail animation. The cat's facial expression changes with boatTilt: a smile when balanced (abs(boatTilt) < 0.05), a neutral line when slightly tilted, and a worried open mouth with a sweat drop when severely tilted (abs(boatTilt) > 0.15).
+drawBalanceBar() — draws a horizontal progress bar at the top of the canvas. The fill colour transitions from green to yellow to red as balanceScore drops, using lerpColor() logic with threshold checks (> 70, > 40, < 40).
+handleEvent(event) — the user input mechanic responds to phase changes triggered by the timeline. During the Galaxy phase (35000–55000 ms), waveAmplitude increases, which amplifies naturalRock and makes balancing harder.
+The cat is always drawn at width/2 + personX * 28, so the visual position matches the balance logic. The boat rotation pivot is the boat centre, so the cat stays correctly on deck as the boat tilts.
+
+### Perlinoise Key Function （Yichen Yao）
+Fish school. A school of fish drifts through the water, each one a different
+size, shape, and colour. Their colours are drawn from the four phase backgrounds
+(reality, dream, galaxy, awakening), so the school always stays in harmony with
+whichever phase is showing — some fish blend in, others read as accents. The
+fish also have a sense of depth: those "closer" to the viewer are larger, more
+vivid, and faster, while those "further away" are smaller, faded, and slower,
+giving the school a front-to-back sense of space. Each fish wanders up and down
+its own gentle path and sways its tail with a soft delay, so the body curves into
+an S-shape and reads as alive rather than rigid.
+
+Whale. Now and then, a whale breaches at a random, rare moment. It arcs out
+of the water and back down, moving quickly as it leaves the water, hanging for a
+beat at the top, then speeding up as it falls. Its body is built from flat
+colour facets shaded to suggest volume, with no outline, matching the scene's
+calm, dreamlike style.
+
+### Voice Frequency Function   (Yujing Zhang)
+Seagulls. Groups of seagulls fly across the daytime sky. Each seagull has its own fixed moving speed. Their flying speed and wing flapping speed change along with the audio. When the audio signal becomes stronger, seagulls move faster and flap their wings more frequently. When seagulls fly out of the screen range, they will reappear on the opposite side and keep moving.
+Rain and sea particles. When entering the rainy night scene, raindrops fall from the top of the screen. The falling speed of raindrops is affected by audio. Stronger audio makes raindrops drop faster. Raindrops near the bottom of the screen gradually turn transparent to create a layered visual effect. A large number of small glowing particles float on the sea surface. The size and brightness of these particles change with the audio as they move slowly.
+Meteors. In the clear night scene, meteors appear randomly in the sky. The number and generation probability of meteors are controlled by audio. More meteors will appear when the audio is more active. Each meteor has a coloured trail and a bright point at the front. Meteors gradually become transparent and disappear during flight. Multiple colours are used for meteors to enrich the visual effect.
+
 ---
 
 ## Mechanic Ownership
@@ -69,37 +105,34 @@ The user's mouse position controls a balance mechanic on a wooden boat. The boat
 
 The mechanic uses three layered variables updated every frame. naturalRock generates a slow sinusoidal sway (sin(frameCount * 0.025) * 0.14) that simulates wave motion. personX maps the mouse X position to a normalised range (-1 to 1) and is smoothed with lerp() for gradual movement. boatTilt is the sum of naturalRock and the person's offset scaled by 0.28, also lerp()-smoothped. The balanceScore is derived from boatTilt using constrain() and lerp(), decreasing as the boat tilts further from centre.
 
-Key functions:
-
-drawBoat(stage) — draws the wooden boat hull using bezierVertex() for the curved shape, with plank lines and bench seats as detail. Applies push()/translate()/rotate(boatTilt)/pop() to tilt the entire boat around its centre. Calls drawCat() and drawBalanceBar() at the end.
-drawCat(px, py) — draws a sitting cat with triangular ears, whiskers, and a curling tail using ellipse(), triangle(), and sin() for tail animation. The cat's facial expression changes with boatTilt: a smile when balanced (abs(boatTilt) < 0.05), a neutral line when slightly tilted, and a worried open mouth with a sweat drop when severely tilted (abs(boatTilt) > 0.15).
-drawBalanceBar() — draws a horizontal progress bar at the top of the canvas. The fill colour transitions from green to yellow to red as balanceScore drops, using lerpColor() logic with threshold checks (> 70, > 40, < 40).
-handleEvent(event) — the user input mechanic responds to phase changes triggered by the timeline. During the Galaxy phase (35000–55000 ms), waveAmplitude increases, which amplifies naturalRock and makes balancing harder.
-The cat is always drawn at width/2 + personX * 28, so the visual position matches the balance logic. The boat rotation pivot is the boat centre, so the cat stays correctly on deck as the boat tilts.
 
 **Yichen Yao — Perlin noise & randomness**
-#### Fish school (Fish class). `random()` sets each fish's size, body shape,
-position, speed, and colour, so one class produces a varied school. Each fish
-picks its colour from a four-colour palette drawn from the four phase
-backgrounds, so the school always matches the current phase. A `random()` depth
-value (z-axis) scales size, colour, and speed — near fish are large, vivid, and
-fast; far fish small, faded, and slow — and the school is sorted by depth for a
-front-to-back sense of space. Motion comes from `noise()`, which slowly drifts
-each fish's swim lane up and down, plus a `sin()` bob and a delayed-phase `sin()`
-tail sway that bends the body into a soft S-shape.
-
-#### Whale (Whale class). random() is checked against a low probability each
-frame, so the whale breaches only rarely. It follows a parabolic `arc (4t(1−t))`
-whose speed depends on height — fast leaving the water, slow at the apex, fast on
-the way down. The body is built from flat polygon facets shaded in brightness
-bands, with no outline.
+Randomness. `random()` sets each fish's size, body shape, position, speed,
+and palette colour, so a single Fish class produces a varied school. A
+`random()` depth value (z-axis) scales size, colour, and speed, and the school is
+sorted by depth so far fish draw behind near ones. The whale spawns when
+`random()` falls below a low probability each frame, making it rare and
+unpredictable.
+Perlin noise. Each fish carries its own `noise()` offset, which slowly drifts
+its vertical swim lane up and down — the core use of Perlin noise, producing
+smooth, never-repeating motion.
+Motion. `sin()` drives the vertical bob, the delayed-phase tail sway (the
+tail's phase lags the head), the whale's parabolic `arc (4t(1−t)`, with speed
+tied to height, and the two wave bands in waves.js.
+Drawing. Fish and whale bodies are flat faceted shapes built with
+`beginShape()`/`vertex()`/`endShape(CLOSE)` and shaded in brightness bands using
+colorMode(HSB) and fill(). The whale's mirrored tail flukes use
+`push()`/`translate()`/`rotate()`/`scale`()/`pop()`. 
 
 **Anna (Yujing Zhang)**
-I create visual effects driven by sound frequency, with three distinct scenes designed as follows:
-##Seagulls: The higher the sound frequency, the farther the seagulls move in the opposite direction, and the faster their wings flap in the daytime.
-##Rainy night: When it rains at night, higher sound frequency makes the rainfall intensify and fall faster.
-##Clear night (no rain): On rainless clear nights, more meteors appear as the sound frequency rises.
-Nush and I use the same audio source, yet our resulting visual presentations are completely different.
+I create frame-by-frame visual effects driven by audio frequency analysed via p5.FFT.The function updateFrequency calculates the average audio frequency from the sound spectrum.
+In the daytime scene：
+map() converts audio frequency into movement and flapping speed for seagulls. The sin() function creates natural wing animation; higher frequency makes seagulls travel faster and flap their wings more rapidly.
+In the rainy night scene ：
+map() and constrain() adjust raindrop velocity. Higher audio frequency accelerates falling raindrops and enhances the rain effect.For the sea sparkle particles, sin() generates pulsating glow and floating motion, and particle size is affected by audio frequency.
+In the clear night scene：
+map(), constrain() and floor() control meteor spawn chance and quantity. Higher frequency increases the number of meteors.I use random() to initialise positions and properties of all dynamic elements, and array methods to manage seagulls, raindrops, particles and meteors.
+#### Nush and I use the same audio source, yet our resulting visual presentations are completely different.
 
 
 **Anusha Jaiswal — Audio mechanic**
@@ -127,7 +160,7 @@ The audio track chosen is cinematic and dynamic, with clear loud and quiet passa
 
 ## AI Acknowledgement
 
-**Xinyue Qiu (Time-based mechanic)**: AI assistance was used for: (1) refining the `timeline` array architecture and event-triggering logic; (2) implementing the `easeOutCubic()` easing function for smooth sun/moon animation; (3) developing the wave-as-horizon approach (`beginShape()` polygon instead of a rectangle). All generated code was read, understood, and commented in `sketch.js` before submission.
+**Xinyue Qiu - Time-based mechanic**: AI assistance was used during the design and development of the time-based mechanic. AI was primarily used to help brainstorm scene transitions, refine the timeline structure, and troubleshoot implementation issues during coding. Suggestions related to event-driven architecture, animation timing, and visual transitions were reviewed, tested, modified, and integrated where appropriate. All final design decisions, code integration, debugging, and creative direction were completed by the author. Relevant AI-assisted sections are documented in sketch.js.
 
 **Danlin Liu — user input**
 
@@ -140,7 +173,7 @@ iterate on code, and check that every function stayed within what was taught in
 class. All design decisions, tuning, and final code were reviewed and decided by
 me.
 
-**Yu jing Zhang - voice frequency part**
+**（Anna）Yujing Zhang - voice frequency part**
 I utilized AI tools for two key aspects of development: (1) generating initial code snippets relevant to sound frequency-driven visual interactions (including seagull movement, rainfall intensity, and meteor appearance dynamics); (2) seeking guidance on debugging and resolving technical bugs encountered during implementation. All AI-generated code was thoroughly read, understood, modified to align with the project’s interactive logic, and integrated into the final submission. Additionally, all design decisions, parameter tuning (e.g., frequency-response sensitivity, animation speed), and functional validation were independently reviewed and finalized by myself.
 
 **Anusha Jaiswal- Audio volume part**

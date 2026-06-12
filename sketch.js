@@ -131,6 +131,9 @@ while (eventIndex < timeline.length && now >= timeline[eventIndex].time && !shou
     
   } else if (currentPhase === "galaxy") {
     drawStars(currentPhase);
+    particleSeaProgress = constrain(particleSeaProgress + 0.003, 0, 1);
+    updateMeteors();
+    drawMeteors();
     
   } else {
     drawSun(currentPhase);
@@ -169,8 +172,7 @@ while (eventIndex < timeline.length && now >= timeline[eventIndex].time && !shou
   // galaxy part
   if (currentPhase === "galaxy") {
     particleSeaProgress = constrain(particleSeaProgress + 0.003, 0, 1);
-    updateMeteors();
-    drawMeteors();
+  
   }
   // ======== AUDIO FREQUENCY  END ========
 
