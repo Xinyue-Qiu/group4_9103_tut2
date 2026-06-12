@@ -103,11 +103,14 @@ the way down. The body is built from flat polygon facets shaded in brightness
 bands, with no outline.
 
 **Anna (Yujing Zhang)**
-I create visual effects driven by sound frequency, with three distinct scenes designed as follows:
-##Seagulls: The higher the sound frequency, the farther the seagulls move in the opposite direction, and the faster their wings flap in the daytime.
-##Rainy night: When it rains at night, higher sound frequency makes the rainfall intensify and fall faster.
-##Clear night (no rain): On rainless clear nights, more meteors appear as the sound frequency rises.
-Nush and I use the same audio source, yet our resulting visual presentations are completely different.
+I create frame-by-frame visual effects driven by audio frequency analysed via p5.FFT.The function updateFrequency calculates the average audio frequency from the sound spectrum.
+In the daytime scene：
+map() converts audio frequency into movement and flapping speed for seagulls. The sin() function creates natural wing animation; higher frequency makes seagulls travel faster and flap their wings more rapidly.
+In the rainy night scene ：
+map() and constrain() adjust raindrop velocity. Higher audio frequency accelerates falling raindrops and enhances the rain effect.For the sea sparkle particles, sin() generates pulsating glow and floating motion, and particle size is affected by audio frequency.
+In the clear night scene：
+map(), constrain() and floor() control meteor spawn chance and quantity. Higher frequency increases the number of meteors.I use random() to initialise positions and properties of all dynamic elements, and array methods to manage seagulls, raindrops, particles and meteors.
+#### Nush and I use the same audio source, yet our resulting visual presentations are completely different.
 
 
 **Anusha Jaiswal — Audio mechanic**
@@ -130,7 +133,7 @@ iterate on code, and check that every function stayed within what was taught in
 class. All design decisions, tuning, and final code were reviewed and decided by
 me.
 
-**Yu jing Zhang - voice frequency part**
+**（Anna）Yujing Zhang - voice frequency part**
 I utilized AI tools for two key aspects of development: (1) generating initial code snippets relevant to sound frequency-driven visual interactions (including seagull movement, rainfall intensity, and meteor appearance dynamics); (2) seeking guidance on debugging and resolving technical bugs encountered during implementation. All AI-generated code was thoroughly read, understood, modified to align with the project’s interactive logic, and integrated into the final submission. Additionally, all design decisions, parameter tuning (e.g., frequency-response sensitivity, animation speed), and functional validation were independently reviewed and finalized by myself.
 
 ---
