@@ -89,6 +89,10 @@ beat at the top, then speeding up as it falls. Its body is built from flat
 colour facets shaded to suggest volume, with no outline, matching the scene's
 calm, dreamlike style.
 
+### Voice Frequency Function   (Yujing Zhang)
+Seagulls. Groups of seagulls fly across the daytime sky. Each seagull has its own fixed moving speed. Their flying speed and wing flapping speed change along with the audio. When the audio signal becomes stronger, seagulls move faster and flap their wings more frequently. When seagulls fly out of the screen range, they will reappear on the opposite side and keep moving.
+Rain and sea particles. When entering the rainy night scene, raindrops fall from the top of the screen. The falling speed of raindrops is affected by audio. Stronger audio makes raindrops drop faster. Raindrops near the bottom of the screen gradually turn transparent to create a layered visual effect. A large number of small glowing particles float on the sea surface. The size and brightness of these particles change with the audio as they move slowly.
+Meteors. In the clear night scene, meteors appear randomly in the sky. The number and generation probability of meteors are controlled by audio. More meteors will appear when the audio is more active. Each meteor has a coloured trail and a bright point at the front. Meteors gradually become transparent and disappear during flight. Multiple colours are used for meteors to enrich the visual effect.
 
 ---
 
