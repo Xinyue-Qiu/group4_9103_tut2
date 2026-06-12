@@ -80,10 +80,16 @@ function draw() {
   phaseProgress = constrain(phaseProgress, 0, 1);
 
   // Check and trigger timeline events
-  while (eventIndex < timeline.length && now >= timeline[eventIndex].time) {
-    handleEvent(timeline[eventIndex].event);
-    eventIndex++;
+  let shouldBreak = false;
+while (eventIndex < timeline.length && now >= timeline[eventIndex].time && !shouldBreak) {
+  let eventName = timeline[eventIndex].event;
+  handleEvent(eventName);
+  eventIndex++;
+  if (eventName === "loopToReality") {
+    shouldBreak = true;
   }
+}
+
 
   // ===== SOUND MECHANIC — Anusha Jaiswal =====
   if (soundAnalyser) {
